@@ -2,7 +2,7 @@ function App() {
 
   return (
     <>
-      <h1>Pumakawa Red</h1>
+      <h1>PumaRed</h1>
     </>
   )
 }
