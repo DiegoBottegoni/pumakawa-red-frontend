@@ -1,0 +1,262 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary-orange: #FF6B00;
+    --dark-orange: #E65100;
+    --light-orange: #FF9E40;
+    --white: #FFFFFF;
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --font-main: 'Outfit', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--primary-orange);
+    background-image: radial-gradient(circle at 20% 20%, var(--light-orange) 0%, transparent 40%),
+        radial-gradient(circle at 80% 80%, var(--dark-orange) 0%, transparent 40%);
+    color: var(--white);
+    height: 100vh;
+    overflow: hidden;
+}
+
+.landing-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0;
+    /* Eliminado para permitir ancho completo */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  flex-direction: column; /* Logo y título uno bajo el otro */
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  flex-shrink: 0;
+}
+
+.navbar-logo {
+    height: 80px;
+    /* Más grande */
+    width: auto;
+    object-fit: contain;
+    mix-blend-mode: screen;
+    /* Cambiado a screen para que el texto invertido (blanco) resalte */
+    filter: invert(1) contrast(1.2);
+    /* Invertido para que sea blanco */
+    transition: transform 0.3s ease;
+}
+
+.navbar-logo:hover {
+    transform: scale(1.05);
+}
+
+.main-title {
+  text-align: center;
+  font-size: 0.75rem; /* Tamaño reducido para que parezca parte del logo */
+  font-weight: 800; /* Negrita intensa para resaltar */
+  padding: 0;
+  margin-top: -5px; /* Pegado al logo */
+  line-height: 1.2;
+  letter-spacing: 0.5px;
+  white-space: nowrap; /* Siempre en un solo renglón */
+  text-transform: uppercase;
+  opacity: 0.9;
+  flex-shrink: 0;
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    padding: 10px 0;
+    overflow: hidden;
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.puma-container {
+    width: 100%;
+    height: 35vh;
+    position: relative;
+    /* Para el posicionamiento del título */
+    overflow: hidden;
+    margin-bottom: 30px;
+    flex-shrink: 0;
+}
+
+.puma-container h1 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 40px 20px 15px;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    color: var(--white);
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-align: center;
+    z-index: 2;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.puma-image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center 45%;
+    /* Bajado para mostrar más la cara */
+}
+
+/* Info Section */
+.info-section {
+    max-width: 800px;
+    margin-bottom: 25px;
+    padding: 0 30px;
+}
+
+.info-section h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+}
+
+.info-section p {
+    font-size: 0.9rem;
+    /* Reducido */
+    line-height: 1.5;
+    opacity: 0.9;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Button */
+.cta-button {
+    background-color: var(--white);
+    color: var(--primary-orange);
+    border: none;
+    padding: 14px 40px;
+    font-size: 0.85rem;
+    /* Reducido */
+    font-weight: 800;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.cta-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    background-color: #f8f8f8;
+}
+
+.cta-button:active {
+    transform: translateY(0);
+}
+
+/* Footer */
+footer {
+    margin-top: auto;
+    padding: 15px 20px;
+    text-align: center;
+    border-top: 1px solid var(--glass-border);
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    list-style: none;
+    margin-bottom: 10px;
+}
+
+.footer-links li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-links button {
+    background: none;
+    border: none;
+    color: var(--white);
+    font-family: var(--font-main);
+    font-weight: 500;
+    font-size: 0.75rem;
+    opacity: 0.8;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 5px 0;
+    border-bottom: 2px solid transparent; /* Para el subrayado */
+}
+
+.footer-links li.open button {
+    opacity: 1;
+    border-bottom: 2px solid var(--white); /* Ítem seleccionado subrayado */
+    margin-bottom: 5px;
+}
+
+.footer-links button:hover {
+    opacity: 1;
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    width: 100%; /* Ocupa todo el espacio horizontal */
+    max-width: 800px; /* Límite para que no se estire demasiado en pantallas gigantes */
+}
+
+.accordion-content p {
+    text-align: justify;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.footer-links li.open .accordion-content {
+    max-height: 250px; /* Suficiente para el nuevo texto */
+    padding: 10px 0 15px;
+}
+
+.copyright {
+    margin-top: 5px;
+    font-size: 0.7rem;
+    opacity: 0.5;
+}
