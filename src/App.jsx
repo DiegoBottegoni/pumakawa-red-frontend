@@ -1,10 +1,11 @@
-function App() {
+import ReportForm from "./ReportForm";
 
+function App() {
   return (
     <>
-      <h1>Pumakawa Red</h1>
+      <ReportForm />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
