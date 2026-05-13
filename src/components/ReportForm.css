@@ -50,6 +50,12 @@
   letter-spacing: 0.08em;
 }
 
+.rf-logo-img {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+}
+
 /* ---------- Main container ---------- */
 .rf-container {
   max-width: 620px;
