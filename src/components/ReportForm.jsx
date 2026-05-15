@@ -1,14 +1,113 @@
-import { useState } from "react";
-import { MapPin, Camera, Send, Loader2, CheckCircle } from "lucide-react";
-import { motion } from "framer-motion";
+import { useState, useRef } from "react";
+import "./ReportForm.css";
 
+/* ─── Icons (inline SVG, zero deps) ─────────────────────────── */
+const IconArrowLeft = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="15 18 9 12 15 6" />
+  </svg>
+);
+
+const IconGlobe = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10" />
+    <line x1="2" y1="12" x2="22" y2="12" />
+    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+  </svg>
+);
+
+const IconCamera = () => (
+  <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+    <circle cx="12" cy="13" r="4" />
+  </svg>
+);
+
+const IconCameraSmall = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+    <circle cx="12" cy="13" r="4" />
+  </svg>
+);
+
+const IconMapPin = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+    <circle cx="12" cy="10" r="3" />
+  </svg>
+);
+
+const IconLoader = () => (
+  <svg className="rf-spin" width="18" height="18" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+  </svg>
+);
+
+const IconSend = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="22" y1="2" x2="11" y2="13" />
+    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+  </svg>
+);
+
+const IconCheck = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="20 6 9 17 4 12" />
+  </svg>
+);
+
+const IconCheckCircleBig = () => (
+  <svg width="64" height="64" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+    <polyline points="22 4 12 14.01 9 11.01" />
+  </svg>
+);
+
+/* Puma icon for avatar */
+const IconPuma = () => (
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+    <circle cx="12" cy="13" r="4" />
+  </svg>
+);
+
+/* ─── Tipos de evento ────────────────────────────────────────── */
+const TIPOS_EVENTO = [
+  { value: "", label: "Selecciona una opción...", disabled: true },
+  { value: "avistamiento_vivo", label: "Avistamiento de puma vivo" },
+  { value: "avistamiento_muerto", label: "Avistamiento de puma muerto" },
+  { value: "mascotismo", label: "Mascotismo (Lo tienen de mascota)" },
+  { value: "atropellamiento", label: "Atropellamiento" },
+  { value: "herido", label: "Puma herido o atrapado" },
+  { value: "caza", label: "Caza furtiva" },
+  { value: "otra", label: "Otra situación" },
+];
+
+/* ─── Component ─────────────────────────────────────────────── */
 const ReportForm = () => {
+  const fileInputRef = useRef(null);
+
   const [formData, setFormData] = useState({
-    incidentType: "",
-    otherIncidentType: "",
-    description: "",
+    nombre: "",
+    apellido: "",
+    contacto: "",
+    tipoEvento: "",
+    otroTipo: "",
+    descripcion: "",
     photo: null,
-    location: null,
+    photoPreviewUrl: null,
+    locationText: "",
+    locationCoords: null,
   });
 
   const [status, setStatus] = useState({
@@ -19,41 +118,49 @@ const ReportForm = () => {
     error: "",
   });
 
+  /* ── Helpers ── */
+  const set = (field) => (e) =>
+    setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+
   const handlePhotoChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      setFormData({ ...formData, photo: e.target.files[0] });
-    }
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    setFormData((prev) => ({ ...prev, photo: file, photoPreviewUrl: url }));
+  };
+
+  const removePhoto = () => {
+    if (formData.photoPreviewUrl) URL.revokeObjectURL(formData.photoPreviewUrl);
+    setFormData((prev) => ({ ...prev, photo: null, photoPreviewUrl: null }));
+    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   const getLocation = () => {
-    setStatus({ ...status, loadingLocation: true, locationError: "" });
-
+    setStatus((s) => ({ ...s, loadingLocation: true, locationError: "" }));
     if (!navigator.geolocation) {
-      setStatus({
-        ...status,
+      setStatus((s) => ({
+        ...s,
         loadingLocation: false,
         locationError: "La geolocalización no es soportada por tu navegador.",
-      });
+      }));
       return;
     }
-
     navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setFormData({
-          ...formData,
-          location: {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          },
-        });
-        setStatus({ ...status, loadingLocation: false, locationError: "" });
+      (pos) => {
+        const coords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        const text = `${coords.lat.toFixed(6)}, ${coords.lng.toFixed(6)}`;
+        setFormData((prev) => ({
+          ...prev,
+          locationCoords: coords,
+          locationText: text,
+        }));
+        setStatus((s) => ({ ...s, loadingLocation: false, locationError: "" }));
       },
-      (error) => {
-        let errorMsg = "Error al obtener ubicación. ";
-        if (error.code === error.PERMISSION_DENIED) {
-          errorMsg += "Por favor, permite el acceso a tu ubicación.";
-        }
-        setStatus({ ...status, loadingLocation: false, locationError: errorMsg });
+      (err) => {
+        let msg = "Error al obtener ubicación. ";
+        if (err.code === err.PERMISSION_DENIED)
+          msg += "Por favor, permite el acceso a tu ubicación.";
+        setStatus((s) => ({ ...s, loadingLocation: false, locationError: msg }));
       }
     );
   };
@@ -61,232 +168,319 @@ const ReportForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!formData.incidentType) {
-      setStatus({ ...status, error: "Por favor, selecciona qué está pasando con el puma." });
+    if (!formData.tipoEvento) {
+      setStatus((s) => ({ ...s, error: "Por favor, selecciona el tipo de evento." }));
       return;
     }
-    if (formData.incidentType === "otra" && !formData.otherIncidentType) {
-      setStatus({ ...status, error: "Por favor, especifica la situación." });
+    if (formData.tipoEvento === "otra" && !formData.otroTipo.trim()) {
+      setStatus((s) => ({ ...s, error: "Por favor, especifica la situación." }));
       return;
     }
-    if (!formData.photo && !formData.location) {
-      setStatus({
-        ...status,
-        error: "Por favor, añade al menos una foto o tu ubicación para poder ayudar.",
-      });
+    if (!formData.photo && !formData.locationCoords && !formData.locationText.trim()) {
+      setStatus((s) => ({
+        ...s,
+        error: "Por favor, añade al menos una foto o tu ubicación.",
+      }));
       return;
     }
 
-    setStatus({ ...status, submitting: true, error: "" });
+    setStatus((s) => ({ ...s, submitting: true, error: "" }));
 
+    // Simulate API call
     setTimeout(() => {
-      setStatus({ ...status, submitting: false, success: true });
-      setFormData({ incidentType: "", otherIncidentType: "", description: "", photo: null, location: null });
-
-      setTimeout(() => {
-        setStatus((s) => ({ ...s, success: false }));
-      }, 5000);
+      setStatus((s) => ({ ...s, submitting: false, success: true }));
     }, 2000);
   };
 
+  /* ── Success screen ── */
+  if (status.success) {
+    return (
+      <div className="rf-success">
+        <div className="rf-success-icon">
+          <IconCheckCircleBig />
+        </div>
+        <h2>¡Reporte Enviado!</h2>
+        <p>Gracias por tu aporte. El equipo de Pumakawa ha sido notificado.</p>
+      </div>
+    );
+  }
+
+  /* ── Main render ── */
   return (
-    <section id="reportar" className="py-20 bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
-          <div className="p-8 md:p-12">
+    <div className="rf-page">
 
-            {/* Header */}
-            <div className="text-center mb-10">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Reportar Avistamiento
-              </h2>
-              <p className="text-gray-500 text-base">
-                Completa la siguiente información. Tu reporte es anónimo y seguro.
-              </p>
-            </div>
+      {/* ── Sticky Header ── */}
+      <header className="rf-header">
+        <div className="rf-header-left">
+          {/* Puma avatar */}
+          <div className="rf-avatar">
+            <IconPuma />
+          </div>
+        </div>
 
-            {/* Success */}
-            {status.success ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="bg-green-50 border border-green-200 rounded-2xl p-10 text-center"
-              >
-                <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-green-800 mb-2">¡Reporte Enviado!</h3>
-                <p className="text-green-700">
-                  Gracias por tu valioso aporte. El equipo de Pumakawa ha sido notificado.
-                </p>
-              </motion.div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-8">
+        {/* Back + Logo */}
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <button
+            type="button"
+            className="rf-back-btn"
+            aria-label="Volver"
+            onClick={() => window.history.back()}
+          >
+            <IconArrowLeft />
+          </button>
+          <div className="rf-header-logo">
+            <span className="rf-logo-icon"><IconGlobe /></span>
+            PUMARED
+          </div>
+        </div>
+      </header>
 
-                {/* Incident type */}
-                <div className="space-y-2">
-                  <label htmlFor="incidentType" className="block text-sm font-semibold text-gray-700">
-                    ¿Qué está pasando con el puma? <span className="text-orange-500">*</span>
+      {/* ── Scrollable body ── */}
+      <div className="rf-body">
+        <div className="rf-container">
+
+          {/* Title */}
+          <div className="rf-title-block">
+            <h1 className="rf-title">Reportar Avistamiento</h1>
+            <p className="rf-subtitle">
+              Completa el formulario con los detalles del evento que presenciaste
+            </p>
+          </div>
+
+          <form className="rf-form" onSubmit={handleSubmit} noValidate>
+
+            {/* ── Información Personal ── */}
+            <section className="rf-section">
+              <h2 className="rf-section-title">Información Personal</h2>
+
+              <div className="rf-row">
+                <div className="rf-field">
+                  <label className="rf-label" htmlFor="rf-nombre">
+                    Nombre <span className="rf-required">*</span>
                   </label>
-                  <select
-                    id="incidentType"
-                    className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-800 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-200 cursor-pointer"
-                    value={formData.incidentType}
-                    onChange={(e) => setFormData({ ...formData, incidentType: e.target.value })}
-                  >
-                    <option value="" disabled>Selecciona una opción...</option>
-                    <option value="avistamiento">Avistamiento (Solo lo vi pasar)</option>
-                    <option value="mascotismo">Mascotismo (Lo tienen de mascota)</option>
-                    <option value="atropellamiento">Atropellamiento</option>
-                    <option value="herido">Puma herido o atrapado</option>
-                    <option value="caza">Caza furtiva</option>
-                    <option value="otra">Otra situación</option>
-                  </select>
-                </div>
-
-                {/* Conditional other */}
-                {formData.incidentType === "otra" && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    className="space-y-2"
-                  >
-                    <label htmlFor="otherIncidentType" className="block text-sm font-semibold text-gray-700">
-                      Especifica la situación <span className="text-orange-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="otherIncidentType"
-                      className="w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
-                      placeholder="Ej: Puma en zona urbana..."
-                      value={formData.otherIncidentType}
-                      onChange={(e) => setFormData({ ...formData, otherIncidentType: e.target.value })}
-                    />
-                  </motion.div>
-                )}
-
-                {/* Photo upload */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-gray-700">
-                    Foto del Avistamiento
-                  </label>
-                  <div className="mt-1 flex justify-center rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 px-6 pt-6 pb-7 transition hover:border-orange-400">
-                    <div className="space-y-2 text-center">
-                      {formData.photo ? (
-                        <div className="flex flex-col items-center gap-2">
-                          <CheckCircle className="h-12 w-12 text-orange-500" />
-                          <p className="text-sm text-gray-600">{formData.photo.name}</p>
-                          <button
-                            type="button"
-                            onClick={() => setFormData({ ...formData, photo: null })}
-                            className="text-sm text-red-500 hover:text-red-700 transition"
-                          >
-                            Cambiar foto
-                          </button>
-                        </div>
-                      ) : (
-                        <>
-                          <Camera className="mx-auto h-12 w-12 text-gray-400" />
-                          <div className="flex justify-center text-sm text-gray-600 gap-1">
-                            <label
-                              htmlFor="file-upload"
-                              className="cursor-pointer rounded-md bg-white font-semibold text-orange-600 hover:text-orange-700 focus-within:outline-none transition"
-                            >
-                              <span>Sube una foto</span>
-                              <input
-                                id="file-upload"
-                                name="file-upload"
-                                type="file"
-                                accept="image/*"
-                                capture="environment"
-                                className="sr-only"
-                                onChange={handlePhotoChange}
-                              />
-                            </label>
-                            <p>o toma una con la cámara</p>
-                          </div>
-                          <p className="text-xs text-gray-400">PNG, JPG, GIF hasta 10MB</p>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Location */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold text-gray-700">Ubicación</label>
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-                    <button
-                      type="button"
-                      onClick={getLocation}
-                      disabled={status.loadingLocation}
-                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-700 disabled:opacity-50 w-full sm:w-auto"
-                    >
-                      {status.loadingLocation
-                        ? <Loader2 className="h-5 w-5 animate-spin" />
-                        : <MapPin className="h-5 w-5" />}
-                      Obtener mi ubicación
-                    </button>
-
-                    {formData.location && (
-                      <span className="inline-flex items-center gap-1 rounded-lg bg-green-50 px-3 py-2 text-sm font-medium text-green-700">
-                        <CheckCircle className="h-4 w-4" /> Ubicación guardada
-                      </span>
-                    )}
-                  </div>
-                  {status.locationError && (
-                    <p className="mt-1 rounded-md border border-red-100 bg-red-50 px-3 py-2 text-sm text-red-600">
-                      {status.locationError}
-                    </p>
-                  )}
-                </div>
-
-                {/* Description */}
-                <div className="space-y-2">
-                  <label htmlFor="description" className="block text-sm font-semibold text-gray-700">
-                    Descripción (Opcional)
-                  </label>
-                  <textarea
-                    id="description"
-                    rows={4}
-                    className="w-full resize-y rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
-                    placeholder="Ej: Vi un puma cruzando la ruta cerca de..."
-                    value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  <input
+                    id="rf-nombre"
+                    type="text"
+                    className="rf-input"
+                    placeholder="Tu nombre"
+                    value={formData.nombre}
+                    onChange={set("nombre")}
+                    autoComplete="given-name"
                   />
                 </div>
 
-                {/* Error */}
-                {status.error && (
-                  <div className="rounded-lg border-l-4 border-red-500 bg-red-50 p-4">
-                    <p className="text-sm text-red-700">{status.error}</p>
+                <div className="rf-field">
+                  <label className="rf-label" htmlFor="rf-apellido">
+                    Apellido <span className="rf-required">*</span>
+                  </label>
+                  <input
+                    id="rf-apellido"
+                    type="text"
+                    className="rf-input"
+                    placeholder="Tu apellido"
+                    value={formData.apellido}
+                    onChange={set("apellido")}
+                    autoComplete="family-name"
+                  />
+                </div>
+              </div>
+
+              <div className="rf-field">
+                <label className="rf-label" htmlFor="rf-contacto">
+                  Contacto (email o teléfono) <span className="rf-required">*</span>
+                </label>
+                <input
+                  id="rf-contacto"
+                  type="text"
+                  className="rf-input"
+                  placeholder="email@ejemplo.com o teléfono"
+                  value={formData.contacto}
+                  onChange={set("contacto")}
+                  autoComplete="email"
+                  inputMode="email"
+                />
+              </div>
+            </section>
+
+            {/* ── Detalles del Evento ── */}
+            <section className="rf-section">
+              <h2 className="rf-section-title">Detalles del Evento</h2>
+
+              <div className="rf-field">
+                <label className="rf-label" htmlFor="rf-tipo-evento">
+                  Tipo de Evento <span className="rf-required">*</span>
+                </label>
+                <select
+                  id="rf-tipo-evento"
+                  className="rf-input rf-select"
+                  value={formData.tipoEvento}
+                  onChange={set("tipoEvento")}
+                >
+                  {TIPOS_EVENTO.map((t) => (
+                    <option key={t.value} value={t.value} disabled={t.disabled}>
+                      {t.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {formData.tipoEvento === "otra" && (
+                <div className="rf-field rf-slide-in">
+                  <label className="rf-label" htmlFor="rf-otro-tipo">
+                    Especifica la situación <span className="rf-required">*</span>
+                  </label>
+                  <input
+                    id="rf-otro-tipo"
+                    type="text"
+                    className="rf-input"
+                    placeholder="Ej: Puma en zona urbana..."
+                    value={formData.otroTipo}
+                    onChange={set("otroTipo")}
+                  />
+                </div>
+              )}
+
+              <div className="rf-field">
+                <label className="rf-label" htmlFor="rf-descripcion">
+                  Descripción del evento <span className="rf-required">*</span>
+                </label>
+                <textarea
+                  id="rf-descripcion"
+                  className="rf-input rf-textarea"
+                  placeholder="Describe lo que observaste con el mayor detalle posible..."
+                  value={formData.descripcion}
+                  onChange={set("descripcion")}
+                />
+              </div>
+            </section>
+
+            {/* ── Fotografía ── */}
+            <section className="rf-section">
+              <h2 className="rf-section-title">Fotografía</h2>
+
+              <div
+                className="rf-photo-area"
+                onClick={() => !formData.photo && fileInputRef.current?.click()}
+              >
+                {formData.photo ? (
+                  <div className="rf-photo-preview">
+                    <img
+                      src={formData.photoPreviewUrl}
+                      alt="Vista previa"
+                      className="rf-photo-img"
+                    />
+                    <p className="rf-photo-name">{formData.photo.name}</p>
+                    <button
+                      type="button"
+                      className="rf-photo-remove"
+                      onClick={(e) => { e.stopPropagation(); removePhoto(); }}
+                    >
+                      Eliminar foto
+                    </button>
+                  </div>
+                ) : (
+                  <div className="rf-photo-placeholder">
+                    <IconCamera />
                   </div>
                 )}
+              </div>
 
-                {/* Submit */}
-                <div className="pt-2">
-                  <button
-                    type="submit"
-                    disabled={status.submitting}
-                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-orange-500 py-4 px-6 text-lg font-bold text-white shadow-lg transition hover:bg-orange-600 active:scale-[0.98] disabled:opacity-50"
-                  >
-                    {status.submitting ? (
-                      <>
-                        <Loader2 className="h-6 w-6 animate-spin" /> Enviando...
-                      </>
-                    ) : (
-                      <>
-                        <Send className="h-6 w-6" /> Enviar Reporte
-                      </>
-                    )}
-                  </button>
+              <input
+                ref={fileInputRef}
+                id="rf-file-upload"
+                type="file"
+                accept="image/*"
+                capture="environment"
+                className="rf-hidden"
+                onChange={handlePhotoChange}
+              />
+
+              {!formData.photo && (
+                <button
+                  type="button"
+                  className="rf-btn-upload"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <IconCameraSmall />
+                  Cargar Foto
+                </button>
+              )}
+            </section>
+
+            {/* ── Ubicación ── */}
+            <section className="rf-section">
+              <h2 className="rf-section-title">Ubicación</h2>
+
+              <div className="rf-field">
+                <label className="rf-label" htmlFor="rf-ubicacion">
+                  Ubicación o coordenadas <span className="rf-required">*</span>
+                </label>
+                <input
+                  id="rf-ubicacion"
+                  type="text"
+                  className="rf-input"
+                  placeholder="Ej: Camino a La Cumbre, km 45 o coordenadas"
+                  value={formData.locationText}
+                  onChange={set("locationText")}
+                />
+              </div>
+
+              {formData.locationCoords ? (
+                <div className="rf-location-ok">
+                  <IconCheck />
+                  Ubicación GPS guardada
                 </div>
+              ) : (
+                <button
+                  type="button"
+                  className="rf-btn-location"
+                  onClick={getLocation}
+                  disabled={status.loadingLocation}
+                >
+                  {status.loadingLocation ? (
+                    <IconLoader />
+                  ) : (
+                    <IconMapPin />
+                  )}
+                  Usar Mi Ubicación Actual
+                </button>
+              )}
 
-              </form>
+              {status.locationError && (
+                <p className="rf-error-text">{status.locationError}</p>
+              )}
+            </section>
+
+            {/* ── Error global ── */}
+            {status.error && (
+              <div className="rf-error-box" role="alert">
+                {status.error}
+              </div>
             )}
 
-          </div>
+            {/* ── Submit ── */}
+            <button
+              type="submit"
+              className="rf-btn-submit"
+              disabled={status.submitting}
+            >
+              {status.submitting ? (
+                <>
+                  <IconLoader />
+                  Enviando...
+                </>
+              ) : (
+                <>
+                  <IconSend />
+                  Enviar Reporte
+                </>
+              )}
+            </button>
+
+          </form>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
