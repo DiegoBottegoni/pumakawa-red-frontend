@@ -132,16 +132,6 @@ export default function NavBar({ variant = "report" }) {
             </li>
           ))}
         </ul>
-
-        {/* CTA mobile */}
-        <Link
-          to="/reportar"
-          className="nb-drawer-cta"
-          onClick={() => setMenuOpen(false)}
-          id="nb-report-btn-mobile"
-        >
-          Reportar Avistamiento
-        </Link>
       </div>
 
       {/* ── Overlay backdrop ── */}
