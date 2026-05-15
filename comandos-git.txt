@@ -1,4 +1,4 @@
-GUIA DE COMANDOS PARA EL MANEJO DE PROYECTOS EN GITHUB
+GUIA DE COMANDOS PARA EL MANEJO DE PROYECTOS EN GIT
 
 1️⃣ Check en local
 Estando en tu rama, asegurate de que todo funcione bien:
