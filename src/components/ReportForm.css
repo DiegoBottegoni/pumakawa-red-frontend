@@ -16,25 +16,6 @@
   flex-direction: column;
 }
 
-/* ---------- Header ---------- */
-.rf-header {
-  background: #E84E1B;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 20px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  min-height: 64px;
-}
-
-.rf-header-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
 /* Puma avatar circle */
 .rf-avatar {
   width: 44px;
@@ -66,22 +47,6 @@
 }
 .rf-back-btn:hover,
 .rf-back-btn:active { background: rgba(255,255,255,0.18); }
-
-/* Logo */
-.rf-header-logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #fff;
-  font-weight: 700;
-  font-size: 1.05rem;
-  letter-spacing: 0.07em;
-}
-
-.rf-logo-icon {
-  color: #fff;
-  flex-shrink: 0;
-}
 
 /* ---------- Scrollable body ---------- */
 .rf-body {
