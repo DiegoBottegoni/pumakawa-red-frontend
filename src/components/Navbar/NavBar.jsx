@@ -6,7 +6,7 @@ import "./NavBar.css";
 const NAV_LINKS = [
   { label: "Inicio", href: "/home" },
   { label: "Reportar", href: "/reportar" },
-  { label: "Protocolo", href: "/protocolo" },
+  { label: "Protocolo", href: "/protocolos" },
 ];
 
 /* ── Icons ──────────────────────────────────────────────────── */
