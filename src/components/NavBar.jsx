@@ -4,8 +4,8 @@ import "./NavBar.css";
 
 /* ── Nav links ─────────────────────────────────────────────── */
 const NAV_LINKS = [
-  { label: "Inicio",    href: "/home" },
-  { label: "Reportar",  href: "/reportar" },
+  { label: "Inicio", href: "/home" },
+  { label: "Reportar", href: "/reportar" },
   { label: "Protocolo", href: "/protocolo" },
 ];
 
@@ -13,7 +13,7 @@ const NAV_LINKS = [
 const IconMenu = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
     stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
-    <line x1="3" y1="6"  x2="21" y2="6"  />
+    <line x1="3" y1="6" x2="21" y2="6" />
     <line x1="3" y1="12" x2="21" y2="12" />
     <line x1="3" y1="18" x2="21" y2="18" />
   </svg>
@@ -22,8 +22,8 @@ const IconMenu = () => (
 const IconClose = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
     stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
-    <line x1="18" y1="6"  x2="6"  y2="18" />
-    <line x1="6"  y1="6"  x2="18" y2="18" />
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
   </svg>
 );
 
@@ -67,7 +67,7 @@ export default function NavBar({ variant = "report" }) {
         <nav className="nb-nav" aria-label="Navegación principal">
 
           {/* Logo */}
-          <Link to="/home" className="nb-logo" aria-label="PUMARED - Inicio">
+          <Link to="/" className="nb-logo" aria-label="PUMARED - Inicio">
             <img
               src="/PNG/PUMARED (logo)-BLANCO.png"
               alt="PUMARED"
