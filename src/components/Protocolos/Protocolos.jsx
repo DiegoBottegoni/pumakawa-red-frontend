@@ -74,38 +74,17 @@ const Protocolos = () => {
 
   return (
     <div className="rf-page">
-      <header className="rf-header">
-        <div className="rf-header-left">
-          <div className="rf-avatar">
-            <IconPuma />
-          </div>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <button
-            type="button"
-            className="rf-back-btn"
-            aria-label="Volver"
-            onClick={() => navigate("/")}
-          >
-            <IconArrowLeft />
-          </button>
-          <div className="rf-header-logo">
-            <span className="rf-logo-icon"><IconGlobe /></span>
-            PUMARED
-          </div>
-        </div>
-      </header>
 
       <div className="rf-body">
         <div className="rf-container" style={{ padding: "24px 16px" }}>
-          
+
           {/* Success Banner */}
-          <div style={{ 
-            display: "flex", 
-            flexDirection: "column", 
-            alignItems: "center", 
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
             textAlign: "center",
-            padding: "24px 20px", 
+            padding: "24px 20px",
             backgroundColor: "#ffffff",
             borderRadius: "16px",
             boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
@@ -128,14 +107,14 @@ const Protocolos = () => {
                 {protocolo.title}
               </h2>
             </div>
-            
+
             <div style={{ backgroundColor: "#fff5f2", padding: "16px", borderRadius: "12px", border: "1px solid #ffded4" }}>
               <p style={{ fontSize: "0.95rem", lineHeight: "1.6", color: "#374151", margin: 0, fontWeight: "500" }}>
                 {protocolo.text}
               </p>
             </div>
           </section>
-          
+
           <button
             type="button"
             className="rf-btn-submit"
