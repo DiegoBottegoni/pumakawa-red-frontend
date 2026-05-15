@@ -1,0 +1,18 @@
+/* ══════════════════════════════════════════════════════════════
+   NavBarMapa.css — Variante "mapa"
+   Color: Azul Oscuro  #1A3662
+   Evoca mapas, cartografía, datos geográficos. Sólido y técnico.
+   Importar en la página del Mapa junto con NavBar.css
+   ══════════════════════════════════════════════════════════════ */
+
+.nb-root--mapa {
+  --nb-primary:           #1A3662;
+  --nb-primary-dk:        #102444;
+  --nb-primary-rgb:       26, 54, 98;
+  --nb-cta-bg:            #ffffff;
+  --nb-cta-color:         #1A3662;
+  --nb-cta-hover:         #f0f4ff;
+  --nb-link-color:        rgba(255, 255, 255, 0.85);
+  --nb-drawer-accent:     #1A3662;
+  --nb-drawer-accent-bg:  #f0f4ff;
+}
