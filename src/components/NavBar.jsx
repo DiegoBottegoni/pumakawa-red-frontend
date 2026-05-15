@@ -89,15 +89,6 @@ export default function NavBar({ variant = "report" }) {
             ))}
           </ul>
 
-          {/* CTA desktop */}
-          <Link
-            to="/reportar"
-            className={`nb-cta${isActive("/reportar") ? " nb-cta--active" : ""}`}
-            id="nb-report-btn"
-          >
-            Reportar Avistamiento
-          </Link>
-
           {/* Hamburger mobile */}
           <button
             className="nb-burger"
