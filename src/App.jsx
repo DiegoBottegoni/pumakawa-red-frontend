@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router";
 import NavBar from "./components/NavBar";
-import ReportForm from "./components/ReportForm";
+import ReportForm from "./components/ReportFrom/ReportForm";
+import Protocolos from "./components/Protocolos/Protocolos";
 
 /* ── CSS de variantes: cada página importa el suyo ── */
 import "./components/NavBarReport.css";
@@ -10,9 +11,9 @@ import "./components/NavBarProtocolo.css";
 
 /* ── Mapa de ruta → variante ── */
 const ROUTE_VARIANT = {
-  "/reportar":  "report",
-  "/home":      "home",
-  "/mapa":      "mapa",
+  "/reportar": "report",
+  "/home": "home",
+  "/mapa": "mapa",
   "/protocolo": "protocolo",
 };
 
@@ -26,11 +27,12 @@ function AppLayout() {
       <NavBar variant={variant} />
       <div className="nb-spacer" />
       <Routes>
-        <Route path="/reportar"  element={<ReportForm />} />
+        <Route path="/reportar" element={<ReportForm />} />
         {/* Añadir el resto de páginas aquí */}
         {/* <Route path="/home"      element={<HomePage />} /> */}
         {/* <Route path="/mapa"      element={<MapaPage />} /> */}
         {/* <Route path="/protocolo" element={<ProtocoloPage />} /> */}
+        <Route path="/protocolos" element={<Protocolos />} />
       </Routes>
     </>
   );
