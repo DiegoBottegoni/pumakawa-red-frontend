@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/Navbar/NavBar";
 import ReportForm from "./components/ReportFrom/ReportForm";
 import Protocolos from "./components/Protocolos/Protocolos";
 
 /* ── CSS de variantes: cada página importa el suyo ── */
-import "./components/NavBarReport.css";
-import "./components/NavBarHome.css";
-import "./components/NavBarMapa.css";
-import "./components/NavBarProtocolo.css";
+import "./components/Navbar/NavBarReport.css";
+import "./components/Navbar/NavBarHome.css";
+import "./components/Navbar/NavBarMapa.css";
+import "./components/Navbar/NavBarProtocolo.css";
 
 /* ── Mapa de ruta → variante ── */
 const ROUTE_VARIANT = {

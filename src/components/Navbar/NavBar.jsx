@@ -66,7 +66,7 @@ export default function NavBar({ variant = "report" }) {
         <nav className="nb-nav" aria-label="Navegación principal">
 
           {/* Logo */}
-          <Link to="/home" className="nb-logo" aria-label="PUMARED - Inicio">
+          <Link to="/" className="nb-logo" aria-label="PUMARED - Inicio">
             <img
               src="/PNG/PUMARED (logo)-BLANCO.png"
               alt="PUMARED"
