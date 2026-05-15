@@ -7,7 +7,7 @@ function App() {
     <>
       <BrowserRouter>
       <Routes>
-        <Route path="/reportar" element={<ReportForm />} />
+        <Route path="/" element={<ReportForm />} />
      </Routes>  
       </BrowserRouter>
     </>
