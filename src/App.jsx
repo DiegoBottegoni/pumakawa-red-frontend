@@ -1,8 +1,15 @@
+import ReportForm from "./components/ReportForm";
+import { BrowserRouter, Routes, Route} from "react-router"
+
 function App() {
 
   return (
     <>
-      <h1>Pumakawa Red</h1>
+      <BrowserRouter>
+      <Routes>
+        <Route path="/reportar" element={<ReportForm />} />
+     </Routes>  
+      </BrowserRouter>
     </>
   )
 }

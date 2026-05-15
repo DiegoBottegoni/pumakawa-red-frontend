@@ -1,0 +1,297 @@
+/* ============================================================
+   ReportForm.css — Estilos para el formulario Pumakawa RED
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ---------- Reset & base ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+.rf-wrapper {
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  background: #f4f4f6;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Header ---------- */
+.rf-header {
+  background: #E84E1B;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.rf-back-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+.rf-back-btn:hover { background: rgba(255,255,255,0.15); }
+
+.rf-header-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+}
+
+.rf-logo-img {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* ---------- Main container ---------- */
+.rf-container {
+  max-width: 620px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+/* ---------- Title ---------- */
+.rf-title-block { margin-bottom: 24px; }
+
+.rf-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 6px;
+}
+
+.rf-subtitle {
+  font-size: 0.875rem;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+/* ---------- Form ---------- */
+.rf-form { display: flex; flex-direction: column; gap: 20px; }
+
+/* ---------- Section card ---------- */
+.rf-section {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.rf-section-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+/* ---------- Row (two columns) ---------- */
+.rf-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 400px) { .rf-row { grid-template-columns: 1fr; } }
+
+/* ---------- Field & input ---------- */
+.rf-field { display: flex; flex-direction: column; gap: 5px; }
+
+.rf-label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #374151;
+}
+.rf-required { color: #E84E1B; }
+
+.rf-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #1a1a2e;
+  background: #fafafa;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  font-family: inherit;
+}
+.rf-input::placeholder { color: #9ca3af; }
+.rf-input:focus {
+  border-color: #E84E1B;
+  box-shadow: 0 0 0 3px rgba(232,78,27,0.12);
+  background: #fff;
+}
+
+.rf-select { appearance: none; cursor: pointer; }
+
+.rf-textarea { resize: vertical; min-height: 100px; }
+
+/* ---------- Photo section ---------- */
+.rf-photo-area {
+  border: 2px dashed #e5e7eb;
+  border-radius: 12px;
+  background: #f9fafb;
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.rf-photo-area:hover { border-color: #E84E1B; }
+
+.rf-photo-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 24px;
+}
+.rf-photo-icon { color: #9ca3af; }
+
+.rf-photo-preview {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+}
+.rf-photo-img {
+  max-height: 200px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.rf-photo-remove {
+  font-size: 0.8rem;
+  color: #ef4444;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* ---------- Buttons ---------- */
+.rf-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: 1.5px solid #E84E1B;
+  border-radius: 10px;
+  background: #fff;
+  color: #E84E1B;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  font-family: inherit;
+}
+.rf-btn-secondary:hover { background: #fff5f2; }
+
+.rf-upload-btn {
+  align-self: center;
+  text-decoration: none;
+}
+.rf-hidden { display: none; }
+
+.rf-btn-location {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: #E84E1B;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+  font-family: inherit;
+  align-self: flex-start;
+}
+.rf-btn-location:hover { background: #c93e12; }
+.rf-btn-location:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.rf-location-ok {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: #16a34a;
+  background: #f0fdf4;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+.rf-btn-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px;
+  background: #E84E1B;
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: background 0.2s, transform 0.1s;
+  font-family: inherit;
+}
+.rf-btn-submit:hover { background: #c93e12; }
+.rf-btn-submit:active { transform: scale(0.98); }
+.rf-btn-submit:disabled { opacity: 0.65; cursor: not-allowed; }
+
+/* ---------- Error ---------- */
+.rf-error-text { font-size: 0.82rem; color: #dc2626; }
+.rf-error-box {
+  background: #fef2f2;
+  border-left: 4px solid #ef4444;
+  padding: 12px 16px;
+  border-radius: 8px;
+  color: #b91c1c;
+  font-size: 0.875rem;
+}
+
+/* ---------- Spin animation ---------- */
+.rf-spin { animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- Success screen ---------- */
+.rf-success {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 40px 24px;
+  text-align: center;
+  background: #fff;
+  font-family: 'Inter', sans-serif;
+}
+.rf-success-icon { color: #E84E1B; }
+.rf-success h2 { font-size: 1.5rem; font-weight: 700; color: #1a1a2e; }
+.rf-success p { color: #6b7280; font-size: 0.95rem; }
