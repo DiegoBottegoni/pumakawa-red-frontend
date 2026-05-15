@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router";
 import "./ReportForm.css";
 
 /* ─── Icons (inline SVG, zero deps) ─────────────────────────── */
@@ -96,6 +97,7 @@ const TIPOS_EVENTO = [
 /* ─── Component ─────────────────────────────────────────────── */
 const ReportForm = () => {
   const fileInputRef = useRef(null);
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     nombre: "",
@@ -188,22 +190,10 @@ const ReportForm = () => {
 
     // Simulate API call
     setTimeout(() => {
-      setStatus((s) => ({ ...s, submitting: false, success: true }));
+      setStatus((s) => ({ ...s, submitting: false }));
+      navigate("/protocolos", { state: { tipoEvento: formData.tipoEvento } });
     }, 2000);
   };
-
-  /* ── Success screen ── */
-  if (status.success) {
-    return (
-      <div className="rf-success">
-        <div className="rf-success-icon">
-          <IconCheckCircleBig />
-        </div>
-        <h2>¡Reporte Enviado!</h2>
-        <p>Gracias por tu aporte. El equipo de Pumakawa ha sido notificado.</p>
-      </div>
-    );
-  }
 
   /* ── Main render ── */
   return (

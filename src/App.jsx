@@ -1,4 +1,5 @@
-import ReportForm from "./components/ReportForm";
+import ReportForm from "./components/ReportFrom/ReportForm";
+import Protocolos from "./components/Protocolos/Protocolos";
 import { BrowserRouter, Routes, Route} from "react-router"
 
 function App() {
@@ -8,7 +9,8 @@ function App() {
       <BrowserRouter>
       <Routes>
         <Route path="/reportar" element={<ReportForm />} />
-     </Routes>  
+        <Route path="/protocolos" element={<Protocolos />} />
+      </Routes>  
       </BrowserRouter>
     </>
   )
