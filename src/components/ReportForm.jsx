@@ -100,7 +100,8 @@ const ReportForm = () => {
   const [formData, setFormData] = useState({
     nombre: "",
     apellido: "",
-    contacto: "",
+    telefono: "",
+    email: "",
     tipoEvento: "",
     otroTipo: "",
     descripcion: "",
@@ -209,31 +210,6 @@ const ReportForm = () => {
   return (
     <div className="rf-page">
 
-      {/* ── Sticky Header ── */}
-      <header className="rf-header">
-        <div className="rf-header-left">
-          {/* Puma avatar */}
-          <div className="rf-avatar">
-            <IconPuma />
-          </div>
-        </div>
-
-        {/* Back + Logo */}
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <button
-            type="button"
-            className="rf-back-btn"
-            aria-label="Volver"
-            onClick={() => window.history.back()}
-          >
-            <IconArrowLeft />
-          </button>
-          <div className="rf-header-logo">
-            <span className="rf-logo-icon"><IconGlobe /></span>
-            PUMARED
-          </div>
-        </div>
-      </header>
 
       {/* ── Scrollable body ── */}
       <div className="rf-body">
@@ -286,16 +262,32 @@ const ReportForm = () => {
               </div>
 
               <div className="rf-field">
-                <label className="rf-label" htmlFor="rf-contacto">
-                  Contacto (email o teléfono) <span className="rf-required">*</span>
+                <label className="rf-label" htmlFor="rf-telefono">
+                  Teléfono <span className="rf-required">*</span>
                 </label>
                 <input
-                  id="rf-contacto"
-                  type="text"
+                  id="rf-telefono"
+                  type="tel"
                   className="rf-input"
-                  placeholder="email@ejemplo.com o teléfono"
-                  value={formData.contacto}
-                  onChange={set("contacto")}
+                  placeholder="Ej: +54 9 11 1234-5678"
+                  value={formData.telefono}
+                  onChange={set("telefono")}
+                  autoComplete="tel"
+                  inputMode="tel"
+                />
+              </div>
+
+              <div className="rf-field">
+                <label className="rf-label" htmlFor="rf-email">
+                  Email <span style={{ fontWeight: 400, color: "#9ca3af", fontSize: "0.78rem" }}>(Opcional)</span>
+                </label>
+                <input
+                  id="rf-email"
+                  type="email"
+                  className="rf-input"
+                  placeholder="Ej: contacto@ejemplo.com"
+                  value={formData.email}
+                  onChange={set("email")}
                   autoComplete="email"
                   inputMode="email"
                 />
