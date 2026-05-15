@@ -1,0 +1,18 @@
+/* ══════════════════════════════════════════════════════════════
+   NavBarHome.css — Variante "home"
+   Color: Verde Bosque Profundo  #1D4731
+   Evoca la naturaleza, el hábitat del puma. Premium y sereno.
+   Importar en la página de Home junto con NavBar.css
+   ══════════════════════════════════════════════════════════════ */
+
+.nb-root--home {
+  --nb-primary:           #1D4731;
+  --nb-primary-dk:        #143525;
+  --nb-primary-rgb:       29, 71, 49;
+  --nb-cta-bg:            #ffffff;
+  --nb-cta-color:         #1D4731;
+  --nb-cta-hover:         #f0faf4;
+  --nb-link-color:        rgba(255, 255, 255, 0.85);
+  --nb-drawer-accent:     #1D4731;
+  --nb-drawer-accent-bg:  #f0faf4;
+}

@@ -1,21 +1,49 @@
-import ReportForm from "./components/ReportForm";
-import PresentacionPage from "./pages/PresentacionPage";
-import { BrowserRouter, Routes, Route } from "react-router"
+import { BrowserRouter, Routes, Route, useLocation } from "react-router";
+import NavBar from "./components/NavBar";
+import ReportForm from "./components/ReportFrom/ReportForm";
+import Protocolos from "./components/Protocolos/Protocolos";
 
+/* ── CSS de variantes: cada página importa el suyo ── */
+import "./components/NavBarReport.css";
+import "./components/NavBarHome.css";
+import "./components/NavBarMapa.css";
+import "./components/NavBarProtocolo.css";
 
+/* ── Mapa de ruta → variante ── */
+const ROUTE_VARIANT = {
+  "/reportar": "report",
+  "/home": "home",
+  "/mapa": "mapa",
+  "/protocolo": "protocolo",
+};
 
-function App() {
+/* Componente interno que lee la ruta y elige la variante */
+function AppLayout() {
+  const location = useLocation();
+  const variant = ROUTE_VARIANT[location.pathname] ?? "report";
 
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<ReportForm />} />
-          <Route path="/presentacion" element={<PresentacionPage />} />
-        </Routes>
-      </BrowserRouter>
+      <NavBar variant={variant} />
+      <div className="nb-spacer" />
+      <Routes>
+        <Route path="/reportar" element={<ReportForm />} />
+        {/* Añadir el resto de páginas aquí */}
+        {/* <Route path="/home"      element={<HomePage />} /> */}
+        {/* <Route path="/mapa"      element={<MapaPage />} /> */}
+        {/* <Route path="/protocolo" element={<ProtocoloPage />} /> */}
+        <Route path="/protocolos" element={<Protocolos />} />
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+function App() {
+  return (
+    <BrowserRouter>
+      <AppLayout />
+    </BrowserRouter>
+  );
+}
+
+export default App;
