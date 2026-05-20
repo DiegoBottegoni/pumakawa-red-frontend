@@ -1,0 +1,18 @@
+/* ══════════════════════════════════════════════════════════════
+   NavBarProtocolo.css — Variante "protocolo"
+   Color: Verde Agua / Teal  #0B8A7C
+   Evoca salud, procedimientos, ciencia. Claro y confiable.
+   Importar en la página de Protocolo junto con NavBar.css
+   ══════════════════════════════════════════════════════════════ */
+
+.nb-root--protocolo {
+  --nb-primary:           #0B8A7C;
+  --nb-primary-dk:        #076D62;
+  --nb-primary-rgb:       11, 138, 124;
+  --nb-cta-bg:            #ffffff;
+  --nb-cta-color:         #0B8A7C;
+  --nb-cta-hover:         #f0fdfb;
+  --nb-link-color:        rgba(255, 255, 255, 0.88);
+  --nb-drawer-accent:     #0B8A7C;
+  --nb-drawer-accent-bg:  #f0fdfb;
+}

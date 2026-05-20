@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+/* Fix: evita que el overscroll en mobile muestre el fondo del body sin color */
+html,
+body {
+  background: #f4f4f6;
+  overscroll-behavior-y: none; /* elimina el bounce/rubber-band en iOS y el glow en Android */
+}
