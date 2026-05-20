@@ -318,7 +318,7 @@ const ReportForm = () => {
 
               <div className="rf-field">
                 <label className="rf-label" htmlFor="rf-descripcion">
-                  Descripción del evento <span className="rf-required">*</span>
+                  Descripción del evento <span style={{ fontWeight: 400, color: "#9ca3af", fontSize: "0.78rem" }}>(Opcional)</span>
                 </label>
                 <textarea
                   id="rf-descripcion"
