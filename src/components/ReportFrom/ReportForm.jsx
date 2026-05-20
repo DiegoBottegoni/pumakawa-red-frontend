@@ -126,6 +126,16 @@ const ReportForm = () => {
   const set = (field) => (e) =>
     setFormData((prev) => ({ ...prev, [field]: e.target.value }));
 
+  const handlePhoneChange = (e) => {
+    const cleanVal = e.target.value.replace(/\D/g, "");
+    setFormData((prev) => ({ ...prev, telefono: cleanVal }));
+  };
+
+  const isEmailValid = (email) => {
+    if (!email) return true;
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
   const handlePhotoChange = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -189,6 +199,10 @@ const ReportForm = () => {
     }
     if (!formData.telefono.trim()) {
       setStatus((s) => ({ ...s, error: "Por favor, ingresa tu número de teléfono de contacto." }));
+      return;
+    }
+    if (formData.email.trim() && !isEmailValid(formData.email)) {
+      setStatus((s) => ({ ...s, error: "Por favor, ingresa un correo electrónico válido." }));
       return;
     }
 
@@ -278,11 +292,12 @@ const ReportForm = () => {
                   id="rf-telefono"
                   type="tel"
                   className="rf-input"
-                  placeholder="Ej: +54 9 11 1234-5678"
+                  placeholder="Ej: 3511234567 (solo números)"
                   value={formData.telefono}
-                  onChange={set("telefono")}
+                  onChange={handlePhoneChange}
                   autoComplete="tel"
-                  inputMode="tel"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                 />
               </div>
 
@@ -293,13 +308,16 @@ const ReportForm = () => {
                 <input
                   id="rf-email"
                   type="email"
-                  className="rf-input"
+                  className={`rf-input ${formData.email && !isEmailValid(formData.email) ? "rf-input--invalid" : ""}`}
                   placeholder="Ej: contacto@ejemplo.com"
                   value={formData.email}
                   onChange={set("email")}
                   autoComplete="email"
                   inputMode="email"
                 />
+                {formData.email && !isEmailValid(formData.email) && (
+                  <span className="rf-field-error">Por favor, ingresa un correo electrónico válido</span>
+                )}
               </div>
             </section>
 
