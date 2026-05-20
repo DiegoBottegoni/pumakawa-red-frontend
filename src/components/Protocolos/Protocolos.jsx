@@ -72,8 +72,6 @@ Si está atacando a tus animales:
 • Bocinas de vehículos: Si tienes un auto o tractor cerca, toca la bocina sin parar y enciende las luces altas.
 • Golpea objetos: Usa ollas, chapas de metal o herramientas para hacer el mayor ruido metálico posible.
 • Grita con fuerza: Usa una voz gruesa, firme y potente.
-
-Fuego y Luz:
 • Luces potentes: Apúntale directamente a los ojos con linternas potentes o reflectores.
 • Fuego: Si es seguro y factible, enciende una antorcha o fogata. El fuego espanta a la mayoría de los depredadores.`,
   },
