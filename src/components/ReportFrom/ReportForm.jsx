@@ -292,7 +292,7 @@ const ReportForm = () => {
                   id="rf-telefono"
                   type="tel"
                   className="rf-input"
-                  placeholder="Ej: 3511234567 (solo números)"
+                  placeholder="Ej: 3511234567"
                   value={formData.telefono}
                   onChange={handlePhoneChange}
                   autoComplete="tel"
