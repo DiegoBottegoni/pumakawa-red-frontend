@@ -59,6 +59,10 @@ const PROTOCOLOS = {
     title: "Protocolo ante Caza Furtiva",
     text: "No te expongas ni enfrentes a los cazadores. Mantente a salvo y no llames la atención. Tu reporte es fundamental y será enviado de manera confidencial a las autoridades de fauna y policía ambiental.",
   },
+  invasion_granja: {
+    title: "Protocolo ante Invasión de Granja / Conflicto con Ganado",
+    text: "Resguarda a tus animales domésticos y ganado en corrales seguros. No intentes acorralar ni atacar al puma. Tu reporte será derivado para asistirte con medidas de mitigación y prevención de daños.",
+  },
   otra: {
     title: "Protocolo General de Seguridad",
     text: "Mantén una distancia segura y no intervengas de forma directa. La prioridad es tu seguridad. Evaluaremos tu reporte para derivarlo a quien corresponda.",

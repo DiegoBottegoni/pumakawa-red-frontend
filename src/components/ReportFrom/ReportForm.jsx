@@ -82,6 +82,7 @@ const TIPOS_EVENTO = [
   { value: "atropellamiento", label: "Atropellamiento" },
   { value: "herido", label: "Puma herido o atrapado" },
   { value: "caza", label: "Caza furtiva" },
+  { value: "invasion_granja", label: "Invasión de granja" },
   { value: "otra", label: "Otra situación" },
 ];
 
