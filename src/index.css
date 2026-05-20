@@ -131,21 +131,21 @@ body {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
-  border-radius: 24px;
-  padding: 1.5rem;
+  border-radius: 18px;
+  padding: 1rem 1.25rem;
   cursor: pointer;
-  transition: transform 0.2s;
+  display: flex;
+  align-items: center;
 }
 
 .info-card-preview:active {
-  transform: scale(0.98);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .preview-header {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 0.75rem;
 }
 
 .icon-badge {
@@ -156,30 +156,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .info-card-preview h2 {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
 }
 
-.info-card-preview p {
-  font-size: 0.9rem;
-  line-height: 1.5;
-  opacity: 0.9;
-  margin-bottom: 1rem;
-}
-
-.text-button {
-  background: none;
-  border: none;
-  color: var(--orange-primary);
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  cursor: pointer;
-}
 
 /* Buttons */
 .primary-button {
