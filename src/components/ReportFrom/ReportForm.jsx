@@ -58,6 +58,15 @@ const IconSend = () => (
   </svg>
 );
 
+const IconShield = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    <line x1="12" y1="8" x2="12" y2="12" />
+    <circle cx="12" cy="15" r="0.5" fill="currentColor" />
+  </svg>
+);
+
 const IconCheck = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
     stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -206,6 +215,21 @@ const ReportForm = () => {
             <p className="rf-subtitle">
               Completa el formulario con los detalles del evento que presenciaste
             </p>
+          </div>
+
+          {/* ── Safety Warning ── */}
+          <div className="rf-safety-warning" role="alert">
+            <div className="rf-safety-icon">
+              <IconShield />
+            </div>
+            <div className="rf-safety-content">
+              <p className="rf-safety-title">⚠️ Tu seguridad es lo primero</p>
+              <p className="rf-safety-text">
+                Mantén siempre una <strong>distancia segura</strong> del animal.
+                Ninguna foto ni reporte vale tu vida.
+                No te expongas a situaciones de riesgo para obtener información.
+              </p>
+            </div>
           </div>
 
           <form className="rf-form" onSubmit={handleSubmit} noValidate>

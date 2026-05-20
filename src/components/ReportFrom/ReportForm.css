@@ -92,6 +92,54 @@
   gap: 16px;
 }
 
+/* ---------- Safety Warning Banner ---------- */
+.rf-safety-warning {
+  display: flex;
+  gap: 12px;
+  background: #fffbeb;
+  border: 1.5px solid #fde68a;
+  border-left: 4px solid #f59e0b;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  align-items: flex-start;
+}
+
+.rf-safety-icon {
+  color: #d97706;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 2px;
+}
+
+.rf-safety-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rf-safety-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #92400e;
+  margin: 0;
+}
+
+.rf-safety-text {
+  font-size: 0.82rem;
+  color: #b45309;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.rf-safety-text strong {
+  font-weight: 700;
+  color: #78350f;
+}
+
 /* ---------- Section card ---------- */
 .rf-section {
   background: #ffffff;
