@@ -5,7 +5,7 @@ import "./NavBar.css";
 /* ── Nav links ─────────────────────────────────────────────── */
 const NAV_LINKS = [
   { label: "Inicio", href: "/home" },
-  { label: "Reportar", href: "/reportar" }
+  { label: "Reportar", href: "/reportar" },
 ];
 
 /* ── Icons ──────────────────────────────────────────────────── */
@@ -88,6 +88,16 @@ export default function NavBar({ variant = "report" }) {
             ))}
           </ul>
 
+          {/* CTA desktop */}
+          <a
+            href="https://pumakawa.org/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nb-cta"
+          >
+            Más sobre nosotros
+          </a>
+
           {/* Hamburger mobile */}
           <button
             className="nb-burger"
@@ -101,7 +111,7 @@ export default function NavBar({ variant = "report" }) {
 
         </nav>
       </header>
-
+ 
       {/* ── Drawer mobile ── */}
       <div
         id="nb-mobile-menu"
@@ -131,6 +141,17 @@ export default function NavBar({ variant = "report" }) {
             </li>
           ))}
         </ul>
+
+        {/* CTA mobile */}
+        <a
+          href="https://pumakawa.org/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="nb-drawer-cta"
+          onClick={() => setMenuOpen(false)}
+        >
+          Más sobre nosotros
+        </a>
       </div>
 
       {/* ── Overlay backdrop ── */}
