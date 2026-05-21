@@ -10,6 +10,7 @@ import Hero from "../Hero/Hero";
 import Boton from "../Boton/Boton";
 import Card from "../Card/Card";
 import Footer from "../Footer/Footer";
+import PresentacionPage from "../../pages/PresentacionPage";
 
 // Assets
 import pumaBg from "../../assets/puma-bg.png";
@@ -34,6 +35,7 @@ const ROUTE_VARIANT = {
   "/home": "home",
   "/mapa": "mapa",
   "/protocolo": "protocolo",
+  "/presentacion": "home",
 };
 
 export default function AppLayout() {
@@ -49,7 +51,7 @@ export default function AppLayout() {
         <div className="bg-overlay"></div>
       </div>
 
-      {location.pathname !== "/" && (
+      {location.pathname !== "/" && location.pathname !== "/presentacion" && (
         <>
           <NavBar variant={variant} />
           <div className="nb-spacer" />
@@ -75,6 +77,7 @@ export default function AppLayout() {
           />
 
           <Route path="/reportar" element={<ReportForm />} />
+          <Route path="/presentacion" element={<PresentacionPage />} />
                 {/* Añadir el resto de páginas aquí */}
                 {/* <Route path="/home"      element={<HomePage />} /> */}
                 {/* <Route path="/mapa"      element={<MapaPage />} /> */}

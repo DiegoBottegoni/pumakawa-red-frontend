@@ -1,11 +1,11 @@
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import Presentacion from "../components/Presentacion";
 
 function PresentacionPage() {
   const navigate = useNavigate();
   return (
     <Presentacion
-      onReportar={() => navigate("/")}
+      onReportar={() => navigate("/reportar")}
       onVerMapa={() => { }}
     />
   );
