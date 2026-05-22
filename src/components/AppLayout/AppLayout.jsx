@@ -77,7 +77,7 @@ export default function AppLayout() {
           />
 
           <Route path="/reportar" element={<ReportForm />} />
-          <Route path="/presentacion" element={<PresentacionPage />} />
+          <Route path="/home" element={<PresentacionPage />} />
                 {/* Añadir el resto de páginas aquí */}
                 {/* <Route path="/home"      element={<HomePage />} /> */}
                 {/* <Route path="/mapa"      element={<MapaPage />} /> */}
