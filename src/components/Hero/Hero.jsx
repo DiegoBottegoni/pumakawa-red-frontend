@@ -1,10 +1,11 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { PawPrint } from "lucide-react";
+import Boton from "../Boton/Boton";
 
 export default function Hero({ setIsInfoOpen }) {
   return (
     <div className="hero-section">
+      <Boton />
       {/* Card de info */}
       <motion.div
         className="info-card-preview"
@@ -14,12 +15,7 @@ export default function Hero({ setIsInfoOpen }) {
         onClick={() => setIsInfoOpen(true)}
         whileTap={{ scale: 0.97 }}
       >
-        <div className="preview-header">
-          <div className="icon-badge">
-            <PawPrint size={20} />
-          </div>
-          <h2>¿Qué es PumaRed?</h2>
-        </div>
+        <h2>¿Qué es PumaRed?</h2>
       </motion.div>
     </div>
   );
