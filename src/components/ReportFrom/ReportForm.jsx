@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import "./ReportForm.css";
 
 /* ─── Icons (inline SVG, zero deps) ─────────────────────────── */

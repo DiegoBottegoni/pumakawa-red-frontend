@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../ReportFrom/ReportForm.css"; // Reuse the same CSS
 
 /* ─── Icons (inline SVG, zero deps) ─────────────────────────── */
