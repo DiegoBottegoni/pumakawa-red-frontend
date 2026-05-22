@@ -51,7 +51,7 @@ export default function AppLayout() {
         <div className="bg-overlay"></div>
       </div>
 
-      {location.pathname !== "/" && location.pathname !== "/presentacion" && (
+      {location.pathname !== "/" && location.pathname !== "/presentacion" && location.pathname !== "/home" && (
         <>
           <NavBar variant={variant} />
           <div className="nb-spacer" />

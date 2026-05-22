@@ -4,7 +4,6 @@ import AppLayout from "./components/AppLayout/AppLayout";
 
 // Ensure styles are imported
 import "./components/Navbar/NavBarReport.css";
-import "./components/Navbar/NavBarHome.css";
 import "./components/Navbar/NavBarMapa.css";
 import "./components/Navbar/NavBarProtocolo.css";
 
