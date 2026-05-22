@@ -298,6 +298,7 @@ const ReportForm = () => {
                   onChange={set("contacto")}
                   autoComplete="email"
                   inputMode="email"
+                  maxLength={10}
                 />
               </div>
             </section>
