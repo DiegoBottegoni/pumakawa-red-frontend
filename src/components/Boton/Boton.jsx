@@ -11,7 +11,7 @@ export default function Boton() {
         className="primary-button"
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
-        onClick={() => navigate("/home")}
+        onClick={() => navigate("/")}
       >
         COMENZAR
       </motion.button>
