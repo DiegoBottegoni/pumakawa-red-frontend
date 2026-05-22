@@ -457,3 +457,133 @@
   margin-top: 4px;
   display: block;
 }
+
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE — DESKTOP (≥ 768px)
+   ══════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+
+  .rf-page {
+    min-height: 100vh;
+  }
+
+  .rf-container {
+    max-width: 680px;
+    padding: 32px 24px 60px;
+  }
+
+  .rf-title-block {
+    padding: 8px 0 28px;
+  }
+
+  .rf-title {
+    font-size: 1.75rem;
+  }
+
+  .rf-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .rf-form {
+    gap: 20px;
+  }
+
+  .rf-section {
+    padding: 24px 24px 28px;
+    border-radius: 16px;
+    gap: 18px;
+  }
+
+  .rf-section-title {
+    font-size: 1.05rem;
+    padding-bottom: 14px;
+  }
+
+  .rf-row {
+    gap: 16px;
+  }
+
+  .rf-label {
+    font-size: 0.84rem;
+  }
+
+  .rf-input {
+    padding: 12px 14px;
+    font-size: 0.925rem;
+    border-radius: 12px;
+  }
+
+  .rf-textarea {
+    min-height: 120px;
+  }
+
+  .rf-photo-area {
+    min-height: 180px;
+    border-radius: 14px;
+  }
+
+  .rf-photo-img {
+    max-height: 240px;
+  }
+
+  .rf-safety-warning {
+    padding: 18px 20px;
+    border-radius: 14px;
+  }
+
+  .rf-safety-title {
+    font-size: 0.95rem;
+  }
+
+  .rf-safety-text {
+    font-size: 0.88rem;
+  }
+
+  .rf-btn-submit {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 18px;
+    font-size: 1.05rem;
+    border-radius: 16px;
+  }
+
+  .rf-btn-location {
+    max-width: 320px;
+    border-radius: 12px;
+  }
+
+  .rf-btn-upload {
+    padding: 12px 24px;
+    font-size: 0.925rem;
+    border-radius: 12px;
+  }
+
+  .rf-error-box {
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 0.9rem;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE — LARGE DESKTOP (≥ 1200px)
+   ══════════════════════════════════════════════════════════════ */
+@media (min-width: 1200px) {
+  .rf-container {
+    max-width: 780px;
+    padding: 40px 32px 80px;
+  }
+
+  .rf-title {
+    font-size: 2rem;
+  }
+
+  .rf-section {
+    padding: 28px 32px 32px;
+  }
+
+  .rf-row {
+    gap: 20px;
+  }
+}
+

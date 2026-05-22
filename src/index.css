@@ -84,7 +84,8 @@ body {
 .content-wrapper {
   position: relative;
   z-index: 1;
-  height: 100%;
+  flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
 }
@@ -386,22 +387,203 @@ body {
   margin-top: 1rem;
 }
 
-/* Media Queries */
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE — DESKTOP (≥ 768px)
+   ══════════════════════════════════════════════════════════════ */
 @media (min-width: 768px) {
-  .app-shell {
-    max-width: 430px;
-    height: 932px;
-    margin: 2rem auto;
-    border-radius: 48px;
-    box-shadow: 0 0 0 12px #1c1c1c, 0 30px 100px rgba(0, 0, 0, 0.8);
+
+  /* ── Shell: full-width, scrollable ── */
+  body {
+    overflow: auto;
   }
 
-  body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .app-shell {
+    width: 100%;
+    height: auto;
     min-height: 100vh;
-    background: radial-gradient(circle at center, #222, #000);
-    overflow: auto;
+    overflow: visible;
+  }
+
+  .content-wrapper {
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .header {
+    padding: 2.5rem 3rem;
+    padding-bottom: 6rem;
+  }
+
+  .logo-image {
+    max-width: 560px;
+  }
+
+  .logo-subtitle {
+    font-size: 0.85rem;
+    max-width: 420px;
+    letter-spacing: 3px;
+  }
+
+  /* ── Hero Section ── */
+  .hero-section {
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 2rem 3rem 3rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .info-card-preview {
+    max-width: 500px;
+    width: 100%;
+    padding: 1.25rem 1.5rem;
+    border-radius: 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .info-card-preview:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  }
+
+  .info-card-preview h2 {
+    font-size: 1.25rem;
+  }
+
+  .icon-badge {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+  }
+
+  /* ── CTA Container / Primary Button ── */
+  .cta-container {
+    display: flex;
+    justify-content: center;
+    padding: 0 3rem 2rem;
+  }
+
+  .primary-button {
+    max-width: 420px;
+    margin: 0 auto;
+    font-size: 1.3rem;
+    padding: 1.35rem 2rem;
+    border-radius: 22px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .primary-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+  }
+
+  /* ── Footer ── */
+  .footer {
+    padding: 1.5rem 3rem;
+  }
+
+  .footer-top {
+    max-width: 1100px;
+    margin: 0 auto 1rem;
+    gap: 2rem;
+  }
+
+  .brand {
+    font-size: 1rem;
+  }
+
+  .site-link {
+    font-size: 1rem;
+  }
+
+  .footer-bottom {
+    font-size: 0.75rem;
+  }
+
+  /* ── Bottom Sheet → Centered Modal ── */
+  .bottom-sheet {
+    top: 50%;
+    left: 50%;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    max-width: 600px;
+    width: 90%;
+    max-height: 85vh;
+    border-radius: 28px;
+    padding: 2rem;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+  }
+
+  .sheet-handle {
+    display: none;
+  }
+
+  .sheet-header h2 {
+    font-size: 2rem;
+  }
+
+  .sheet-header p {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .features-grid {
+    gap: 24px;
+    margin: 2.5rem 0;
+  }
+
+  .feature-icon-wrapper {
+    width: 60px;
+    height: 60px;
+  }
+
+  .feature-item h3 {
+    font-size: 0.85rem;
+  }
+
+  .feature-item p {
+    font-size: 0.75rem;
+  }
+
+  .sheet-cta .primary-button {
+    max-width: 100%;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE — LARGE DESKTOP (≥ 1200px)
+   ══════════════════════════════════════════════════════════════ */
+@media (min-width: 1200px) {
+  .header {
+    padding: 3rem 4rem;
+    padding-bottom: 7rem;
+  }
+
+  .logo-image {
+    max-width: 640px;
+  }
+
+  .logo-subtitle {
+    font-size: 0.9rem;
+    max-width: 460px;
+  }
+
+  .hero-section {
+    max-width: 1000px;
+    padding: 3rem 4rem 4rem;
+  }
+
+  .info-card-preview {
+    max-width: 560px;
+    padding: 1.5rem 2rem;
+  }
+
+  .footer {
+    padding: 2rem 4rem;
+  }
+
+  .footer-top {
+    max-width: 1200px;
   }
 }

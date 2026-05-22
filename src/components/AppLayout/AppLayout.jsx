@@ -51,7 +51,7 @@ export default function AppLayout() {
         <div className="bg-overlay"></div>
       </div>
 
-      {location.pathname !== "/" && location.pathname !== "/presentacion" && (
+      {location.pathname !== "/" && (
         <>
           <NavBar variant={variant} />
           <div className="nb-spacer" />
@@ -77,6 +77,7 @@ export default function AppLayout() {
           />
 
           <Route path="/reportar" element={<ReportForm />} />
+          <Route path="/presentacion" element={<PresentacionPage />} />
           <Route path="/home" element={<PresentacionPage />} />
                 {/* Añadir el resto de páginas aquí */}
                 {/* <Route path="/home"      element={<HomePage />} /> */}
@@ -85,7 +86,7 @@ export default function AppLayout() {
           <Route path="/protocolos" element={<Protocolos />} />
         </Routes>
 
-        {location.pathname !== "/presentacion" && <Footer />}
+        <Footer />
       </main>
 
       <Card isInfoOpen={isInfoOpen} setIsInfoOpen={setIsInfoOpen} />
