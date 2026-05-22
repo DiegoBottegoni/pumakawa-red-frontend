@@ -7,7 +7,6 @@ import NavBar from "../Navbar/NavBar";
 import ReportForm from "../ReportFrom/ReportForm";
 import Protocolos from "../Protocolos/Protocolos";
 import Hero from "../Hero/Hero";
-import Boton from "../Boton/Boton";
 import Card from "../Card/Card";
 import Footer from "../Footer/Footer";
 
@@ -69,7 +68,6 @@ export default function AppLayout() {
                 </header>
 
                 <Hero setIsInfoOpen={setIsInfoOpen} />
-                <Boton />
               </>
             }
           />
