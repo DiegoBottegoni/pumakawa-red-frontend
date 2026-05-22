@@ -1,14 +1,7 @@
-import { Camera, MapPin, Eye, PawPrint } from "lucide-react";
+import { Camera, MapPin, AlertTriangle } from "lucide-react";
 import "./presentacion.css";
 
 /* ── Sub-components reutilizables ── */
-
-/** Logo circular con icono */
-const LogoBadge = ({ icon: Icon, className = "" }) => (
-  <div className={`presentacion-logo ${className}`}>
-    <Icon />
-  </div>
-);
 
 /** Card de acción (botón principal / secundario) */
 const ActionCard = ({
@@ -33,16 +26,14 @@ const ActionCard = ({
   </button>
 );
 
-/** Ítem de reporte con icono beige */
-const ReportItem = ({ icon: Icon, name, description }) => (
+/** Ítem de reporte con icono de color */
+const ReportItem = ({ icon: Icon, name, description, variant }) => (
   <div className="presentacion-report-item">
-    <div className="presentacion-report-icon">
+    <div className={`presentacion-report-icon presentacion-report-icon--${variant}`}>
       <Icon />
     </div>
-    <div className="presentacion-report-content">
-      <span className="presentacion-report-name">{name}</span>
-      <span className="presentacion-report-desc">{description}</span>
-    </div>
+    <span className="presentacion-report-name">{name}</span>
+    <span className="presentacion-report-desc">{description}</span>
   </div>
 );
 
@@ -54,8 +45,11 @@ const Presentacion = ({ onReportar, onVerMapa }) => {
       <div className="presentacion-container">
         {/* ─── Header ─── */}
         <header className="presentacion-header pr-animate">
-          <LogoBadge icon={PawPrint} />
-          <span className="presentacion-brand">PUMARED</span>
+          <img
+            src="/PNG/PUMARED (logo)-COLOR.png"
+            alt="PUMARED Logo"
+            className="presentacion-logo-img"
+          />
         </header>
 
         {/* ─── Información ─── */}
@@ -64,11 +58,13 @@ const Presentacion = ({ onReportar, onVerMapa }) => {
           <p className="presentacion-info-text">
             PumaRed es un proyecto de ciencia ciudadana que busca relevar,
             sistematizar y generar información sobre el conflicto
-            humano-carnívoros silvestres.
+            humano-carnívoros silvestres a nivel nacional, con foco en el puma
+            (Puma concolor).
           </p>
           <p className="presentacion-info-text">
-            Tu participación es clave para proteger la biodiversidad y promover
-            la convivencia con la fauna nativa.
+            Tu participación es fundamental para construir una coexistencia armoniosa
+            entre las especies silvestres y las actividades humanas en ambientes
+            naturales, rurales y urbanos.
           </p>
         </section>
 
@@ -78,7 +74,7 @@ const Presentacion = ({ onReportar, onVerMapa }) => {
             <ActionCard
               icon={Camera}
               title="Reportar avistamiento"
-              subtitle="Registra encuentros, huellas o conflictos."
+              subtitle="Registra encuentro con pumas, huellas o existencia de conflicto."
               variant="primary"
               onClick={onReportar}
             />
@@ -87,7 +83,7 @@ const Presentacion = ({ onReportar, onVerMapa }) => {
             <ActionCard
               icon={MapPin}
               title="Ver mapa"
-              subtitle="Avistamientos reportados."
+              subtitle="Avistamientos reportados en Córdoba."
               variant="secondary"
               onClick={onVerMapa}
             />
@@ -97,11 +93,29 @@ const Presentacion = ({ onReportar, onVerMapa }) => {
         {/* ─── Sección inferior ─── */}
         <section className="presentacion-bottom pr-animate pr-animate-delay-4">
           <h2 className="presentacion-bottom-title">¿Qué puedo reportar?</h2>
-          <ReportItem
-            icon={Eye}
-            name="Avistamientos"
-            description="Individuos vivos, huellas, fecas e incidentes."
-          />
+          <div className="presentacion-report-list">
+            <ReportItem
+              icon={Camera}
+              name="Avistamientos"
+              description="Individuos vivos, cachorros, huellas, fecas Incidentes."
+              variant="orange"
+            />
+            <ReportItem
+              icon={AlertTriangle}
+              name="Incidentes"
+              description="Atropellamientos, conflictos con ganado."
+              variant="red"
+            />
+            <ReportItem
+              icon={MapPin}
+              name="Ubicación"
+              description="Datos precisos de localización del evento."
+              variant="blue"
+            />
+          </div>
+          <footer className="presentacion-footer">
+            Un proyecto de Pumakawa
+          </footer>
         </section>
       </div>
     </div>
