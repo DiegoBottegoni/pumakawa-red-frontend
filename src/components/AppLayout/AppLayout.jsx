@@ -7,7 +7,6 @@ import NavBar from "../Navbar/NavBar";
 import ReportForm from "../ReportFrom/ReportForm";
 import Protocolos from "../Protocolos/Protocolos";
 import Hero from "../Hero/Hero";
-import Boton from "../Boton/Boton";
 import Card from "../Card/Card";
 import Footer from "../Footer/Footer";
 import PresentacionPage from "../../pages/PresentacionPage";
@@ -71,12 +70,12 @@ export default function AppLayout() {
                 </header>
 
                 <Hero setIsInfoOpen={setIsInfoOpen} />
-                <Boton />
               </>
             }
           />
 
           <Route path="/reportar" element={<ReportForm />} />
+          <Route path="/presentacion" element={<PresentacionPage />} />
           <Route path="/home" element={<PresentacionPage />} />
                 {/* Añadir el resto de páginas aquí */}
                 {/* <Route path="/home"      element={<HomePage />} /> */}
@@ -85,7 +84,7 @@ export default function AppLayout() {
           <Route path="/protocolos" element={<Protocolos />} />
         </Routes>
 
-        {location.pathname !== "/presentacion" && <Footer />}
+        <Footer />
       </main>
 
       <Card isInfoOpen={isInfoOpen} setIsInfoOpen={setIsInfoOpen} />

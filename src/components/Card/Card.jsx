@@ -1,7 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, PawPrint, MapPin, ShieldCheck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+
+/* Simple hook to detect desktop */
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(
+    typeof window !== "undefined" ? window.innerWidth >= 768 : false
+  );
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const handler = (e) => setIsDesktop(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+  return isDesktop;
+}
 
 const FeatureItem = ({ icon: Icon, title, description }) => (
   <div className="feature-item">
@@ -15,11 +29,25 @@ const FeatureItem = ({ icon: Icon, title, description }) => (
 
 export default function Card({ isInfoOpen, setIsInfoOpen }) {
   const navigate = useNavigate();
+  const isDesktop = useIsDesktop();
 
   const handleStart = () => {
     setIsInfoOpen(false);
     navigate("/reportar");
   };
+
+  /* Animation variants: slide-up on mobile, scale on desktop */
+  const sheetVariants = isDesktop
+    ? {
+        initial: { opacity: 0, scale: 0.92 },
+        animate: { opacity: 1, scale: 1 },
+        exit: { opacity: 0, scale: 0.92 },
+      }
+    : {
+        initial: { y: "100%" },
+        animate: { y: 0 },
+        exit: { y: "100%" },
+      };
 
   return (
     <AnimatePresence>
@@ -34,9 +62,9 @@ export default function Card({ isInfoOpen, setIsInfoOpen }) {
           />
           <motion.div
             className="bottom-sheet"
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            exit={{ y: "100%" }}
+            initial={sheetVariants.initial}
+            animate={sheetVariants.animate}
+            exit={sheetVariants.exit}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
           >
             <div
