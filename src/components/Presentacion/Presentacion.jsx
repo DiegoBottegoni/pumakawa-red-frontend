@@ -45,13 +45,15 @@ const Presentacion = ({ onReportar, onVerMapa }) => {
     <div className="presentacion-root">
       <div className="presentacion-container">
         {/* ─── Header ─── */}
-        <Link to="/" className="presentacion-corner-logo" aria-label="Volver al inicio">
-          <img
-            src="/PNG/PUMARED (logo)-COLOR.png"
-            alt="PUMARED Logo"
-            className="presentacion-logo-img"
-          />
-        </Link>
+        <div className="presentacion-logo-header">
+          <Link to="/" aria-label="Volver al inicio">
+            <img
+              src="/PNG/PUMARED (logo)-COLOR.png"
+              alt="PUMARED Logo"
+              className="presentacion-logo-img"
+            />
+          </Link>
+        </div>
 
         {/* ─── Información ─── */}
         <section className="presentacion-info pr-animate pr-animate-delay-1">
