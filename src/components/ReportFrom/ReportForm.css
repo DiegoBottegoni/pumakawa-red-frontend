@@ -16,25 +16,6 @@
   flex-direction: column;
 }
 
-/* ---------- Header ---------- */
-.rf-header {
-  background: #E84E1B;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 20px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  min-height: 64px;
-}
-
-.rf-header-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
 /* Puma avatar circle */
 .rf-avatar {
   width: 44px;
@@ -66,22 +47,6 @@
 }
 .rf-back-btn:hover,
 .rf-back-btn:active { background: rgba(255,255,255,0.18); }
-
-/* Logo */
-.rf-header-logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #fff;
-  font-weight: 700;
-  font-size: 1.05rem;
-  letter-spacing: 0.07em;
-}
-
-.rf-logo-icon {
-  color: #fff;
-  flex-shrink: 0;
-}
 
 /* ---------- Scrollable body ---------- */
 .rf-body {
@@ -125,6 +90,54 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+/* ---------- Safety Warning Banner ---------- */
+.rf-safety-warning {
+  display: flex;
+  gap: 12px;
+  background: #fffbeb;
+  border: 1.5px solid #fde68a;
+  border-left: 4px solid #f59e0b;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  align-items: flex-start;
+}
+
+.rf-safety-icon {
+  color: #d97706;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 2px;
+}
+
+.rf-safety-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rf-safety-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #92400e;
+  margin: 0;
+}
+
+.rf-safety-text {
+  font-size: 0.82rem;
+  color: #b45309;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.rf-safety-text strong {
+  font-weight: 700;
+  color: #78350f;
 }
 
 /* ---------- Section card ---------- */
@@ -426,4 +439,21 @@
 @keyframes slideIn {
   from { opacity: 0; transform: translateY(-6px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Live Validation Styles ---------- */
+.rf-input--invalid {
+  border-color: #dc2626 !important;
+}
+
+.rf-input--invalid:focus {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12) !important;
+}
+
+.rf-field-error {
+  font-size: 0.76rem;
+  color: #dc2626;
+  margin-top: 4px;
+  display: block;
 }

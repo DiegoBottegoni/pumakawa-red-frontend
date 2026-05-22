@@ -1,17 +1,18 @@
-import ReportForm from "./components/ReportForm";
-import { BrowserRouter, Routes, Route} from "react-router"
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import AppLayout from "./components/AppLayout/AppLayout";
 
-function App() {
+// Ensure styles are imported
+import "./components/Navbar/NavBarReport.css";
+import "./components/Navbar/NavBarHome.css";
+import "./components/Navbar/NavBarMapa.css";
+import "./components/Navbar/NavBarProtocolo.css";
 
+
+export default function App() {
   return (
-    <>
-      <BrowserRouter>
-      <Routes>
-        <Route path="/reportar" element={<ReportForm />} />
-     </Routes>  
-      </BrowserRouter>
-    </>
-  )
+    <BrowserRouter>
+      <AppLayout />
+    </BrowserRouter>
+  );
 }
-
-export default App

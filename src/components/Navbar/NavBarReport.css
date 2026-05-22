@@ -1,0 +1,17 @@
+/* ══════════════════════════════════════════════════════════════
+   NavBarReport.css — Variante "report"
+   Color: Naranja PUMARED  #E84E1B
+   Importar en la página de Reportar junto con NavBar.css
+   ══════════════════════════════════════════════════════════════ */
+
+.nb-root--report {
+  --nb-primary:           #E84E1B;
+  --nb-primary-dk:        #c93e12;
+  --nb-primary-rgb:       232, 78, 27;
+  --nb-cta-bg:            #ffffff;
+  --nb-cta-color:         #E84E1B;
+  --nb-cta-hover:         #fff5f2;
+  --nb-link-color:        rgba(255, 255, 255, 0.88);
+  --nb-drawer-accent:     #E84E1B;
+  --nb-drawer-accent-bg:  #fff5f2;
+}

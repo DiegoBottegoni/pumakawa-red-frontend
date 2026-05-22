@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router";
 import "./ReportForm.css";
 
 /* ─── Icons (inline SVG, zero deps) ─────────────────────────── */
@@ -57,6 +58,15 @@ const IconSend = () => (
   </svg>
 );
 
+const IconShield = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    <line x1="12" y1="8" x2="12" y2="12" />
+    <circle cx="12" cy="15" r="0.5" fill="currentColor" />
+  </svg>
+);
+
 const IconCheck = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
     stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -72,15 +82,6 @@ const IconCheckCircleBig = () => (
   </svg>
 );
 
-/* Puma icon for avatar */
-const IconPuma = () => (
-  <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-    <circle cx="12" cy="13" r="4" />
-  </svg>
-);
-
 /* ─── Tipos de evento ────────────────────────────────────────── */
 const TIPOS_EVENTO = [
   { value: "", label: "Selecciona una opción...", disabled: true },
@@ -90,17 +91,20 @@ const TIPOS_EVENTO = [
   { value: "atropellamiento", label: "Atropellamiento" },
   { value: "herido", label: "Puma herido o atrapado" },
   { value: "caza", label: "Caza furtiva" },
+  { value: "invasion_granja", label: "Invasión de granja" },
   { value: "otra", label: "Otra situación" },
 ];
 
 /* ─── Component ─────────────────────────────────────────────── */
 const ReportForm = () => {
   const fileInputRef = useRef(null);
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     nombre: "",
     apellido: "",
-    contacto: "",
+    telefono: "",
+    email: "",
     tipoEvento: "",
     otroTipo: "",
     descripcion: "",
@@ -121,6 +125,16 @@ const ReportForm = () => {
   /* ── Helpers ── */
   const set = (field) => (e) =>
     setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+
+  const handlePhoneChange = (e) => {
+    const cleanVal = e.target.value.replace(/\D/g, "");
+    setFormData((prev) => ({ ...prev, telefono: cleanVal }));
+  };
+
+  const isEmailValid = (email) => {
+    if (!email) return true;
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
 
   const handlePhotoChange = (e) => {
     const file = e.target.files?.[0];
@@ -183,57 +197,27 @@ const ReportForm = () => {
       }));
       return;
     }
+    if (!formData.telefono.trim()) {
+      setStatus((s) => ({ ...s, error: "Por favor, ingresa tu número de teléfono de contacto." }));
+      return;
+    }
+    if (formData.email.trim() && !isEmailValid(formData.email)) {
+      setStatus((s) => ({ ...s, error: "Por favor, ingresa un correo electrónico válido." }));
+      return;
+    }
 
     setStatus((s) => ({ ...s, submitting: true, error: "" }));
 
     // Simulate API call
     setTimeout(() => {
-      setStatus((s) => ({ ...s, submitting: false, success: true }));
+      setStatus((s) => ({ ...s, submitting: false }));
+      navigate("/protocolos", { state: { tipoEvento: formData.tipoEvento } });
     }, 2000);
   };
-
-  /* ── Success screen ── */
-  if (status.success) {
-    return (
-      <div className="rf-success">
-        <div className="rf-success-icon">
-          <IconCheckCircleBig />
-        </div>
-        <h2>¡Reporte Enviado!</h2>
-        <p>Gracias por tu aporte. El equipo de Pumakawa ha sido notificado.</p>
-      </div>
-    );
-  }
 
   /* ── Main render ── */
   return (
     <div className="rf-page">
-
-      {/* ── Sticky Header ── */}
-      <header className="rf-header">
-        <div className="rf-header-left">
-          {/* Puma avatar */}
-          <div className="rf-avatar">
-            <IconPuma />
-          </div>
-        </div>
-
-        {/* Back + Logo */}
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <button
-            type="button"
-            className="rf-back-btn"
-            aria-label="Volver"
-            onClick={() => window.history.back()}
-          >
-            <IconArrowLeft />
-          </button>
-          <div className="rf-header-logo">
-            <span className="rf-logo-icon"><IconGlobe /></span>
-            PUMARED
-          </div>
-        </div>
-      </header>
 
       {/* ── Scrollable body ── */}
       <div className="rf-body">
@@ -245,6 +229,21 @@ const ReportForm = () => {
             <p className="rf-subtitle">
               Completa el formulario con los detalles del evento que presenciaste
             </p>
+          </div>
+
+          {/* ── Safety Warning ── */}
+          <div className="rf-safety-warning" role="alert">
+            <div className="rf-safety-icon">
+              <IconShield />
+            </div>
+            <div className="rf-safety-content">
+              <p className="rf-safety-title">⚠️ Tu seguridad es lo primero</p>
+              <p className="rf-safety-text">
+                Mantén siempre una <strong>distancia segura</strong> del animal.
+                Ninguna foto ni reporte vale tu vida.
+                No te expongas a situaciones de riesgo para obtener información.
+              </p>
+            </div>
           </div>
 
           <form className="rf-form" onSubmit={handleSubmit} noValidate>
@@ -286,19 +285,39 @@ const ReportForm = () => {
               </div>
 
               <div className="rf-field">
-                <label className="rf-label" htmlFor="rf-contacto">
-                  Contacto (email o teléfono) <span className="rf-required">*</span>
+                <label className="rf-label" htmlFor="rf-telefono">
+                  Teléfono <span className="rf-required">*</span>
                 </label>
                 <input
-                  id="rf-contacto"
-                  type="text"
+                  id="rf-telefono"
+                  type="tel"
                   className="rf-input"
-                  placeholder="email@ejemplo.com o teléfono"
-                  value={formData.contacto}
-                  onChange={set("contacto")}
+                  placeholder="Ej: 3511234567"
+                  value={formData.telefono}
+                  onChange={handlePhoneChange}
+                  autoComplete="tel"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                />
+              </div>
+
+              <div className="rf-field">
+                <label className="rf-label" htmlFor="rf-email">
+                  Email <span style={{ fontWeight: 400, color: "#9ca3af", fontSize: "0.78rem" }}>(Opcional)</span>
+                </label>
+                <input
+                  id="rf-email"
+                  type="email"
+                  className={`rf-input ${formData.email && !isEmailValid(formData.email) ? "rf-input--invalid" : ""}`}
+                  placeholder="Ej: contacto@ejemplo.com"
+                  value={formData.email}
+                  onChange={set("email")}
                   autoComplete="email"
                   inputMode="email"
                 />
+                {formData.email && !isEmailValid(formData.email) && (
+                  <span className="rf-field-error">Por favor, ingresa un correo electrónico válido</span>
+                )}
               </div>
             </section>
 
@@ -342,7 +361,7 @@ const ReportForm = () => {
 
               <div className="rf-field">
                 <label className="rf-label" htmlFor="rf-descripcion">
-                  Descripción del evento <span className="rf-required">*</span>
+                  Descripción del evento <span style={{ fontWeight: 400, color: "#9ca3af", fontSize: "0.78rem" }}>(Opcional)</span>
                 </label>
                 <textarea
                   id="rf-descripcion"
