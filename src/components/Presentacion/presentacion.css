@@ -83,8 +83,28 @@
   display: none; /* Ocultado porque se usa el NavBar global de la app */
 }
 
+/* ── Corner logo (link en esquina superior izquierda) ── */
+.presentacion-corner-logo {
+  position: fixed;
+  top: 14px;
+  left: 16px;
+  z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.presentacion-corner-logo:hover {
+  opacity: 0.85;
+  transform: scale(1.04);
+}
+
 .presentacion-logo-img {
-  display: none;
+  height: 36px;
+  width: auto;
+  display: block;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.15));
 }
 
 /* ── Info section ── */

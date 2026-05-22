@@ -1,4 +1,5 @@
 import { Camera, MapPin, AlertTriangle } from "lucide-react";
+import { Link } from "react-router-dom";
 import "./presentacion.css";
 
 /* ── Sub-components reutilizables ── */
@@ -44,13 +45,13 @@ const Presentacion = ({ onReportar, onVerMapa }) => {
     <div className="presentacion-root">
       <div className="presentacion-container">
         {/* ─── Header ─── */}
-        <header className="presentacion-header pr-animate">
+        <Link to="/" className="presentacion-corner-logo" aria-label="Volver al inicio">
           <img
             src="/PNG/PUMARED (logo)-COLOR.png"
             alt="PUMARED Logo"
             className="presentacion-logo-img"
           />
-        </header>
+        </Link>
 
         {/* ─── Información ─── */}
         <section className="presentacion-info pr-animate pr-animate-delay-1">
