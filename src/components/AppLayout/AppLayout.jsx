@@ -85,7 +85,7 @@ export default function AppLayout() {
           <Route path="/protocolos" element={<Protocolos />} />
         </Routes>
 
-        <Footer />
+        {location.pathname !== "/presentacion" && <Footer />}
       </main>
 
       <Card isInfoOpen={isInfoOpen} setIsInfoOpen={setIsInfoOpen} />
