@@ -1,9 +1,20 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import { Facebook, Instagram, Youtube } from "lucide-react";
 
 export default function Footer() {
+  const location = useLocation();
+  const path = location.pathname;
+
+  let footerClass = "footer";
+  if (path === "/home" || path === "/presentacion") {
+    footerClass += " footer--light-home";
+  } else if (path === "/reportar" || path === "/protocolos") {
+    footerClass += " footer--light-report";
+  }
+
   return (
-    <footer className="footer">
+    <footer className={footerClass}>
       <div className="footer-top">
         <div className="footer-col align-center">
           <span className="label">Consultas</span>

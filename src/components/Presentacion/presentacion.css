@@ -358,8 +358,13 @@
     display: grid;
     grid-template-columns: 1.2fr 1fr;
     grid-template-areas:
+      "logo logo"
       "info actions"
       "bottom bottom";
+  }
+
+  .presentacion-logo-header {
+    grid-area: logo;
   }
 
   .presentacion-info {

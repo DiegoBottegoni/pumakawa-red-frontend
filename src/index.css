@@ -242,6 +242,62 @@ body {
   background: rgba(0, 0, 0, 0.2);
 }
 
+/* Light footer for /home and /presentacion */
+.footer.footer--light-home {
+  background-color: #F2F2F2;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.footer.footer--light-home .label {
+  color: #5A5A5A;
+  opacity: 0.7;
+}
+
+.footer.footer--light-home .site-link,
+.footer.footer--light-home .social-link {
+  color: #1F1F1F;
+  opacity: 0.8;
+}
+
+.footer.footer--light-home .site-link:hover,
+.footer.footer--light-home .social-link:hover {
+  color: #F57C00; /* pr-orange */
+  opacity: 1;
+}
+
+.footer.footer--light-home .footer-bottom {
+  color: #5A5A5A;
+  opacity: 0.6;
+}
+
+/* Light footer for /reportar and /protocolos */
+.footer.footer--light-report {
+  background-color: #f4f5f7;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.footer.footer--light-report .label {
+  color: #6b7280;
+  opacity: 0.8;
+}
+
+.footer.footer--light-report .site-link,
+.footer.footer--light-report .social-link {
+  color: #374151;
+  opacity: 0.9;
+}
+
+.footer.footer--light-report .site-link:hover,
+.footer.footer--light-report .social-link:hover {
+  color: #E84E1B; /* report orange */
+  opacity: 1;
+}
+
+.footer.footer--light-report .footer-bottom {
+  color: #6b7280;
+  opacity: 0.7;
+}
+
 .footer-top {
   display: flex;
   justify-content: space-between;
