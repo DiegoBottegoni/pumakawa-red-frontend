@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import "./ReportForm.css";
 
 /* ─── Icons (inline SVG, zero deps) ─────────────────────────── */
@@ -58,6 +58,15 @@ const IconSend = () => (
   </svg>
 );
 
+const IconShield = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    <line x1="12" y1="8" x2="12" y2="12" />
+    <circle cx="12" cy="15" r="0.5" fill="currentColor" />
+  </svg>
+);
+
 const IconCheck = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
     stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -82,6 +91,7 @@ const TIPOS_EVENTO = [
   { value: "atropellamiento", label: "Atropellamiento" },
   { value: "herido", label: "Puma herido o atrapado" },
   { value: "caza", label: "Caza furtiva" },
+  { value: "invasion_granja", label: "Invasión de granja" },
   { value: "otra", label: "Otra situación" },
 ];
 
@@ -115,6 +125,16 @@ const ReportForm = () => {
   /* ── Helpers ── */
   const set = (field) => (e) =>
     setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+
+  const handlePhoneChange = (e) => {
+    const cleanVal = e.target.value.replace(/\D/g, "");
+    setFormData((prev) => ({ ...prev, telefono: cleanVal }));
+  };
+
+  const isEmailValid = (email) => {
+    if (!email) return true;
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
 
   const handlePhotoChange = (e) => {
     const file = e.target.files?.[0];
@@ -181,6 +201,10 @@ const ReportForm = () => {
       setStatus((s) => ({ ...s, error: "Por favor, ingresa tu número de teléfono de contacto." }));
       return;
     }
+    if (formData.email.trim() && !isEmailValid(formData.email)) {
+      setStatus((s) => ({ ...s, error: "Por favor, ingresa un correo electrónico válido." }));
+      return;
+    }
 
     setStatus((s) => ({ ...s, submitting: true, error: "" }));
 
@@ -205,6 +229,21 @@ const ReportForm = () => {
             <p className="rf-subtitle">
               Completa el formulario con los detalles del evento que presenciaste
             </p>
+          </div>
+
+          {/* ── Safety Warning ── */}
+          <div className="rf-safety-warning" role="alert">
+            <div className="rf-safety-icon">
+              <IconShield />
+            </div>
+            <div className="rf-safety-content">
+              <p className="rf-safety-title">⚠️ Tu seguridad es lo primero</p>
+              <p className="rf-safety-text">
+                Mantén siempre una <strong>distancia segura</strong> del animal.
+                Ninguna foto ni reporte vale tu vida.
+                No te expongas a situaciones de riesgo para obtener información.
+              </p>
+            </div>
           </div>
 
           <form className="rf-form" onSubmit={handleSubmit} noValidate>
@@ -253,11 +292,12 @@ const ReportForm = () => {
                   id="rf-telefono"
                   type="tel"
                   className="rf-input"
-                  placeholder="Ej: +54 9 11 1234-5678"
+                  placeholder="Ej: 3511234567"
                   value={formData.telefono}
-                  onChange={set("telefono")}
+                  onChange={handlePhoneChange}
                   autoComplete="tel"
-                  inputMode="tel"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                 />
               </div>
 
@@ -268,13 +308,16 @@ const ReportForm = () => {
                 <input
                   id="rf-email"
                   type="email"
-                  className="rf-input"
+                  className={`rf-input ${formData.email && !isEmailValid(formData.email) ? "rf-input--invalid" : ""}`}
                   placeholder="Ej: contacto@ejemplo.com"
                   value={formData.email}
                   onChange={set("email")}
                   autoComplete="email"
                   inputMode="email"
                 />
+                {formData.email && !isEmailValid(formData.email) && (
+                  <span className="rf-field-error">Por favor, ingresa un correo electrónico válido</span>
+                )}
               </div>
             </section>
 
@@ -318,7 +361,7 @@ const ReportForm = () => {
 
               <div className="rf-field">
                 <label className="rf-label" htmlFor="rf-descripcion">
-                  Descripción del evento <span className="rf-required">*</span>
+                  Descripción del evento <span style={{ fontWeight: 400, color: "#9ca3af", fontSize: "0.78rem" }}>(Opcional)</span>
                 </label>
                 <textarea
                   id="rf-descripcion"

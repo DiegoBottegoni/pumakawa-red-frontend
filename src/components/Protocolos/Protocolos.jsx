@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../ReportFrom/ReportForm.css"; // Reuse the same CSS
 
 /* ─── Icons (inline SVG, zero deps) ─────────────────────────── */
@@ -59,6 +59,22 @@ const PROTOCOLOS = {
     title: "Protocolo ante Caza Furtiva",
     text: "No te expongas ni enfrentes a los cazadores. Mantente a salvo y no llames la atención. Tu reporte es fundamental y será enviado de manera confidencial a las autoridades de fauna y policía ambiental.",
   },
+  invasion_granja: {
+    title: "Protocolo ante Invasión de Granja / Conflicto con Ganado",
+    text: `Si tienes un encuentro cercano o directo con el felino:
+• Aparenta ser más grande: Levanta los brazos, abre tu campera o agita una prenda sobre tu cabeza.
+• Haz ruido: Grita fuerte y mantén contacto visual directo con el animal.
+• No lo acorrales: Deja siempre una vía de escape para que el animal pueda huir.
+• Defiéndete si es necesario: Si el puma se acerca demasiado o ataca, usa cualquier objeto a tu alcance (palos, piedras) y pelea sin retroceder.
+
+Si está atacando a tus animales:
+• Usa pirotecnia: Si tienes petardos o fuegos artificiales, úsalos ya mismo.
+• Bocinas de vehículos: Si tienes un auto o tractor cerca, toca la bocina sin parar y enciende las luces altas.
+• Golpea objetos: Usa ollas, chapas de metal o herramientas para hacer el mayor ruido metálico posible.
+• Grita con fuerza: Usa una voz gruesa, firme y potente.
+• Luces potentes: Apúntale directamente a los ojos con linternas potentes o reflectores.
+• Fuego: Si es seguro y factible, enciende una antorcha o fogata. El fuego espanta a la mayoría de los depredadores.`,
+  },
   otra: {
     title: "Protocolo General de Seguridad",
     text: "Mantén una distancia segura y no intervengas de forma directa. La prioridad es tu seguridad. Evaluaremos tu reporte para derivarlo a quien corresponda.",
@@ -109,7 +125,7 @@ const Protocolos = () => {
             </div>
 
             <div style={{ backgroundColor: "#fff5f2", padding: "16px", borderRadius: "12px", border: "1px solid #ffded4" }}>
-              <p style={{ fontSize: "0.95rem", lineHeight: "1.6", color: "#374151", margin: 0, fontWeight: "500" }}>
+              <p style={{ fontSize: "0.95rem", lineHeight: "1.6", color: "#374151", margin: 0, fontWeight: "500", whiteSpace: "pre-line" }}>
                 {protocolo.text}
               </p>
             </div>
