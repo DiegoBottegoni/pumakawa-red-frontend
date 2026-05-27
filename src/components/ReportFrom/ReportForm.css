@@ -228,30 +228,58 @@
 }
 
 /* ---------- Photo section ---------- */
-.rf-photo-area {
+/* ---------- Photo options split container ---------- */
+.rf-photo-options-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+}
+
+@media (max-width: 480px) {
+  .rf-photo-options-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.rf-photo-option-card {
   border: 2px dashed #d1d5db;
   border-radius: 12px;
   background: #f9fafb;
-  min-height: 140px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  transition: border-color 0.2s;
-  cursor: pointer;
-}
-
-.rf-photo-area:hover {
-  border-color: #E84E1B;
-}
-
-.rf-photo-placeholder {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 28px 20px;
-  color: #9ca3af;
+  justify-content: center;
+  padding: 20px 14px;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s, transform 0.15s;
+  text-align: center;
+}
+
+.rf-photo-option-card:hover {
+  border-color: #E84E1B;
+  background-color: #fffaf8;
+  transform: translateY(-2px);
+}
+
+.rf-photo-option-icon {
+  color: #E84E1B;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rf-photo-option-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 4px;
+}
+
+.rf-photo-option-desc {
+  font-size: 0.72rem;
+  color: #6b7280;
 }
 
 .rf-photo-icon { color: #c4c9d4; }
@@ -314,6 +342,41 @@
 .rf-btn-upload:hover {
   background: #f9fafb;
   border-color: #9ca3af;
+}
+
+/* Upload buttons row when photos already loaded */
+.rf-upload-buttons-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 14px;
+  width: 100%;
+}
+
+.rf-btn-upload-split {
+  flex: 1;
+  max-width: 160px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 10px;
+  background: #fff;
+  color: #374151;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.rf-btn-upload-split:hover {
+  background: #fffaf8;
+  border-color: #E84E1B;
+  color: #E84E1B;
 }
 
 .rf-hidden { display: none; }

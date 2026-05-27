@@ -21,6 +21,24 @@ const IconCameraSmall = () => (
   </svg>
 );
 
+const IconImage = () => (
+  <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+    <circle cx="8.5" cy="8.5" r="1.5" />
+    <polyline points="21 15 16 10 5 21" />
+  </svg>
+);
+
+const IconImageSmall = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+    <circle cx="8.5" cy="8.5" r="1.5" />
+    <polyline points="21 15 16 10 5 21" />
+  </svg>
+);
+
 const IconMapPin = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
     stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -77,6 +95,7 @@ const TIPOS_EVENTO = [
 /* ─── Component ─────────────────────────────────────────────── */
 const ReportForm = () => {
   const fileInputRef = useRef(null);
+  const cameraInputRef = useRef(null);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -134,6 +153,7 @@ const ReportForm = () => {
     });
 
     if (fileInputRef.current) fileInputRef.current.value = "";
+    if (cameraInputRef.current) cameraInputRef.current.value = "";
   };
 
   const removePhoto = (index) => {
@@ -401,51 +421,71 @@ const ReportForm = () => {
                       </button>
                     </div>
                   ))}
-                  
-                  {formData.photos.length < 3 && (
-                    <div
-                      className="rf-photo-add-card"
-                      onClick={() => fileInputRef.current?.click()}
-                    >
-                      <IconCameraSmall />
-                      <span>Agregar</span>
-                    </div>
-                  )}
                 </div>
               ) : (
-                <div
-                  className="rf-photo-area"
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  <div className="rf-photo-placeholder">
-                    <IconCamera />
-                    <p style={{ fontSize: "0.85rem", marginTop: "4px", color: "#6b7280" }}>
-                      Tocar para abrir galería (Máx. 3)
-                    </p>
+                <div className="rf-photo-options-container">
+                  <div
+                    className="rf-photo-option-card"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <div className="rf-photo-option-icon">
+                      <IconImage />
+                    </div>
+                    <span className="rf-photo-option-title">Cargar de Galería</span>
+                    <span className="rf-photo-option-desc">Selecciona fotos guardadas</span>
+                  </div>
+                  <div
+                    className="rf-photo-option-card"
+                    onClick={() => cameraInputRef.current?.click()}
+                  >
+                    <div className="rf-photo-option-icon">
+                      <IconCamera />
+                    </div>
+                    <span className="rf-photo-option-title">Tomar Foto</span>
+                    <span className="rf-photo-option-desc">Usa la cámara del celular</span>
                   </div>
                 </div>
               )}
 
+              {/* Inputs ocultos */}
               <input
                 ref={fileInputRef}
-                id="rf-file-upload"
+                id="rf-file-upload-gallery"
                 type="file"
                 accept="image/*"
                 className="rf-hidden"
                 onChange={handlePhotoChange}
                 multiple={true}
               />
+              <input
+                ref={cameraInputRef}
+                id="rf-file-upload-camera"
+                type="file"
+                accept="image/*"
+                capture="environment"
+                className="rf-hidden"
+                onChange={handlePhotoChange}
+              />
 
-              {formData.photos.length < 3 && (
-                <button
-                  type="button"
-                  className="rf-btn-upload"
-                  onClick={() => fileInputRef.current?.click()}
-                  style={{ marginTop: formData.photos.length > 0 ? "12px" : "0" }}
-                >
-                  <IconCameraSmall />
-                  {formData.photos.length > 0 ? "Agregar Foto" : "Cargar Foto"}
-                </button>
+              {formData.photos.length > 0 && formData.photos.length < 3 && (
+                <div className="rf-upload-buttons-row">
+                  <button
+                    type="button"
+                    className="rf-btn-upload-split"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <IconImageSmall />
+                    <span>Galería</span>
+                  </button>
+                  <button
+                    type="button"
+                    className="rf-btn-upload-split"
+                    onClick={() => cameraInputRef.current?.click()}
+                  >
+                    <IconCameraSmall />
+                    <span>Cámara</span>
+                  </button>
+                </div>
               )}
             </section>
 
