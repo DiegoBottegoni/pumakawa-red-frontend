@@ -420,7 +420,7 @@ const ReportForm = () => {
                   <div className="rf-photo-placeholder">
                     <IconCamera />
                     <p style={{ fontSize: "0.85rem", marginTop: "4px", color: "#6b7280" }}>
-                      Tocar para abrir cámara (Máx. 3)
+                      Tocar para abrir galería (Máx. 3)
                     </p>
                   </div>
                 </div>
@@ -431,7 +431,6 @@ const ReportForm = () => {
                 id="rf-file-upload"
                 type="file"
                 accept="image/*"
-                capture="environment"
                 className="rf-hidden"
                 onChange={handlePhotoChange}
                 multiple={true}
