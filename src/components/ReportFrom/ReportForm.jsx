@@ -3,21 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./ReportForm.css";
 
 /* ─── Icons (inline SVG, zero deps) ─────────────────────────── */
-const IconArrowLeft = () => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="15 18 9 12 15 6" />
-  </svg>
-);
 
-const IconGlobe = () => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="10" />
-    <line x1="2" y1="12" x2="22" y2="12" />
-    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-  </svg>
-);
 
 const IconCamera = () => (
   <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
@@ -74,13 +60,6 @@ const IconCheck = () => (
   </svg>
 );
 
-const IconCheckCircleBig = () => (
-  <svg width="64" height="64" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-    <polyline points="22 4 12 14.01 9 11.01" />
-  </svg>
-);
 
 /* ─── Tipos de evento ────────────────────────────────────────── */
 const TIPOS_EVENTO = [
@@ -108,8 +87,8 @@ const ReportForm = () => {
     tipoEvento: "",
     otroTipo: "",
     descripcion: "",
-    photo: null,
-    photoPreviewUrl: null,
+    photos: [],
+    photoPreviewUrls: [],
     locationText: "",
     locationCoords: null,
   });
@@ -137,16 +116,40 @@ const ReportForm = () => {
   };
 
   const handlePhotoChange = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const url = URL.createObjectURL(file);
-    setFormData((prev) => ({ ...prev, photo: file, photoPreviewUrl: url }));
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+
+    setFormData((prev) => {
+      const currentPhotos = prev.photos || [];
+      const currentUrls = prev.photoPreviewUrls || [];
+
+      const remaining = 3 - currentPhotos.length;
+      if (remaining <= 0) return prev;
+
+      const filesToAdd = files.slice(0, remaining);
+      const newPhotos = [...currentPhotos, ...filesToAdd];
+      const newUrls = [...currentUrls, ...filesToAdd.map((f) => URL.createObjectURL(f))];
+
+      return { ...prev, photos: newPhotos, photoPreviewUrls: newUrls };
+    });
+
+    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  const removePhoto = () => {
-    if (formData.photoPreviewUrl) URL.revokeObjectURL(formData.photoPreviewUrl);
-    setFormData((prev) => ({ ...prev, photo: null, photoPreviewUrl: null }));
-    if (fileInputRef.current) fileInputRef.current.value = "";
+  const removePhoto = (index) => {
+    setFormData((prev) => {
+      const currentPhotos = prev.photos || [];
+      const currentUrls = prev.photoPreviewUrls || [];
+
+      if (currentUrls[index]) {
+        URL.revokeObjectURL(currentUrls[index]);
+      }
+
+      const newPhotos = currentPhotos.filter((_, i) => i !== index);
+      const newUrls = currentUrls.filter((_, i) => i !== index);
+
+      return { ...prev, photos: newPhotos, photoPreviewUrls: newUrls };
+    });
   };
 
   const getLocation = () => {
@@ -190,7 +193,7 @@ const ReportForm = () => {
       setStatus((s) => ({ ...s, error: "Por favor, especifica la situación." }));
       return;
     }
-    if (!formData.photo && !formData.locationCoords && !formData.locationText.trim()) {
+    if ((!formData.photos || formData.photos.length === 0) && !formData.locationCoords && !formData.locationText.trim()) {
       setStatus((s) => ({
         ...s,
         error: "Por favor, añade al menos una foto o tu ubicación.",
@@ -375,34 +378,53 @@ const ReportForm = () => {
 
             {/* ── Fotografía ── */}
             <section className="rf-section">
-              <h2 className="rf-section-title">Fotografía</h2>
+              <h2 className="rf-section-title">
+                Fotografías {formData.photos.length > 0 ? `(${formData.photos.length}/3)` : ""}
+              </h2>
 
-              <div
-                className="rf-photo-area"
-                onClick={() => !formData.photo && fileInputRef.current?.click()}
-              >
-                {formData.photo ? (
-                  <div className="rf-photo-preview">
-                    <img
-                      src={formData.photoPreviewUrl}
-                      alt="Vista previa"
-                      className="rf-photo-img"
-                    />
-                    <p className="rf-photo-name">{formData.photo.name}</p>
-                    <button
-                      type="button"
-                      className="rf-photo-remove"
-                      onClick={(e) => { e.stopPropagation(); removePhoto(); }}
+              {formData.photos.length > 0 ? (
+                <div className="rf-photos-grid">
+                  {formData.photos.map((photo, index) => (
+                    <div key={index} className="rf-photo-card">
+                      <img
+                        src={formData.photoPreviewUrls[index]}
+                        alt={`Vista previa ${index + 1}`}
+                        className="rf-photo-img-grid"
+                      />
+                      <button
+                        type="button"
+                        className="rf-photo-delete-badge"
+                        onClick={() => removePhoto(index)}
+                        aria-label="Eliminar foto"
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  ))}
+                  
+                  {formData.photos.length < 3 && (
+                    <div
+                      className="rf-photo-add-card"
+                      onClick={() => fileInputRef.current?.click()}
                     >
-                      Eliminar foto
-                    </button>
-                  </div>
-                ) : (
+                      <IconCameraSmall />
+                      <span>Agregar</span>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div
+                  className="rf-photo-area"
+                  onClick={() => fileInputRef.current?.click()}
+                >
                   <div className="rf-photo-placeholder">
                     <IconCamera />
+                    <p style={{ fontSize: "0.85rem", marginTop: "4px", color: "#6b7280" }}>
+                      Tocar para abrir cámara (Máx. 3)
+                    </p>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
 
               <input
                 ref={fileInputRef}
@@ -412,16 +434,18 @@ const ReportForm = () => {
                 capture="environment"
                 className="rf-hidden"
                 onChange={handlePhotoChange}
+                multiple={true}
               />
 
-              {!formData.photo && (
+              {formData.photos.length < 3 && (
                 <button
                   type="button"
                   className="rf-btn-upload"
                   onClick={() => fileInputRef.current?.click()}
+                  style={{ marginTop: formData.photos.length > 0 ? "12px" : "0" }}
                 >
                   <IconCameraSmall />
-                  Cargar Foto
+                  {formData.photos.length > 0 ? "Agregar Foto" : "Cargar Foto"}
                 </button>
               )}
             </section>

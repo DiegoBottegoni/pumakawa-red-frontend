@@ -6,7 +6,6 @@ function PresentacionPage() {
   return (
     <Presentacion
       onReportar={() => navigate("/reportar")}
-      onVerMapa={() => { }}
     />
   );
 }
