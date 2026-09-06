@@ -21,6 +21,24 @@ const IconCameraSmall = () => (
   </svg>
 );
 
+const IconImage = () => (
+  <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+    <circle cx="8.5" cy="8.5" r="1.5" />
+    <polyline points="21 15 16 10 5 21" />
+  </svg>
+);
+
+const IconImageSmall = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+    <circle cx="8.5" cy="8.5" r="1.5" />
+    <polyline points="21 15 16 10 5 21" />
+  </svg>
+);
+
 const IconMapPin = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
     stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -96,6 +114,7 @@ const MapCenterUpdater = ({ coords }) => {
 /* ─── Component ─────────────────────────────────────────────── */
 const ReportForm = () => {
   const fileInputRef = useRef(null);
+  const cameraInputRef = useRef(null);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -106,8 +125,8 @@ const ReportForm = () => {
     tipoEvento: "",
     otroTipo: "",
     descripcion: "",
-    photo: null,
-    photoPreviewUrl: null,
+    photos: [],
+    photoPreviewUrls: [],
     photoUploadedAt: null,
     locationText: "",
     locationCoords: null,
@@ -145,21 +164,41 @@ const ReportForm = () => {
   };
 
   const handlePhotoChange = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const url = URL.createObjectURL(file);
-    setFormData((prev) => ({
-      ...prev,
-      photo: file,
-      photoPreviewUrl: url,
-      photoUploadedAt: new Date().toISOString(),
-    }));
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+
+    setFormData((prev) => {
+      const currentPhotos = prev.photos || [];
+      const currentUrls = prev.photoPreviewUrls || [];
+
+      const remaining = 3 - currentPhotos.length;
+      if (remaining <= 0) return prev;
+
+      const filesToAdd = files.slice(0, remaining);
+      const newPhotos = [...currentPhotos, ...filesToAdd];
+      const newUrls = [...currentUrls, ...filesToAdd.map((f) => URL.createObjectURL(f))];
+
+      return { ...prev, photos: newPhotos, photoPreviewUrls: newUrls };
+    });
+
+    if (fileInputRef.current) fileInputRef.current.value = "";
+    if (cameraInputRef.current) cameraInputRef.current.value = "";
   };
 
-  const removePhoto = () => {
-    if (formData.photoPreviewUrl) URL.revokeObjectURL(formData.photoPreviewUrl);
-    setFormData((prev) => ({ ...prev, photo: null, photoPreviewUrl: null, photoUploadedAt: null }));
-    if (fileInputRef.current) fileInputRef.current.value = "";
+  const removePhoto = (index) => {
+    setFormData((prev) => {
+      const currentPhotos = prev.photos || [];
+      const currentUrls = prev.photoPreviewUrls || [];
+
+      if (currentUrls[index]) {
+        URL.revokeObjectURL(currentUrls[index]);
+      }
+
+      const newPhotos = currentPhotos.filter((_, i) => i !== index);
+      const newUrls = currentUrls.filter((_, i) => i !== index);
+
+      return { ...prev, photos: newPhotos, photoPreviewUrls: newUrls };
+    });
   };
 
   const getLocation = () => {
@@ -202,7 +241,7 @@ const ReportForm = () => {
       setStatus((s) => ({ ...s, error: "Por favor, especifica la situación." }));
       return;
     }
-    if (!formData.photo && !formData.locationCoords && !formData.locationText.trim()) {
+    if ((!formData.photos || formData.photos.length === 0) && !formData.locationCoords && !formData.locationText.trim()) {
       setStatus((s) => ({
         ...s,
         error: "Por favor, añade al menos una foto o tu ubicación.",
@@ -402,43 +441,73 @@ const ReportForm = () => {
 
             {/* ── Fotografía ── */}
             <section className="rf-section">
-              <h2 className="rf-section-title">Fotografía</h2>
+              <h2 className="rf-section-title">
+                Fotografías {formData.photos.length > 0 ? `(${formData.photos.length}/3)` : ""}
+              </h2>
 
-              <div
-                className="rf-photo-area"
-                onClick={() => !formData.photo && fileInputRef.current?.click()}
-              >
-                {formData.photo ? (
-                  <div className="rf-photo-preview">
-                    <img
-                      src={formData.photoPreviewUrl}
-                      alt="Vista previa"
-                      className="rf-photo-img"
-                    />
-                    <p className="rf-photo-name">{formData.photo.name}</p>
-                    {formData.photoUploadedAt && (
+              {formData.photos.length > 0 ? (
+                <div className="rf-photos-grid">
+                  {formData.photos.map((photo, index) => (
+                    <div key={index} className="rf-photo-card">
+                      <img
+                        src={formData.photoPreviewUrls[index]}
+                        alt={`Vista previa ${index + 1}`}
+                        className="rf-photo-img-grid"
+                      />
+                      {formData.photoUploadedAt && (
                       <p className="rf-photo-time">
                         Cargada el {new Date(formData.photoUploadedAt).toLocaleString("es-AR")}
                       </p>
                     )}
                     <button
-                      type="button"
-                      className="rf-photo-remove"
-                      onClick={(e) => { e.stopPropagation(); removePhoto(); }}
-                    >
-                      Eliminar foto
-                    </button>
+                        type="button"
+                        className="rf-photo-delete-badge"
+                        onClick={() => removePhoto(index)}
+                        aria-label="Eliminar foto"
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="rf-photo-options-container">
+                  <div
+                    className="rf-photo-option-card"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <div className="rf-photo-option-icon">
+                      <IconImage />
+                    </div>
+                    <span className="rf-photo-option-title">Cargar de Galería</span>
+                    <span className="rf-photo-option-desc">Selecciona fotos guardadas</span>
                   </div>
-                ) : (
-                  <div className="rf-photo-placeholder">
-                    <IconCamera />
+                  <div
+                    className="rf-photo-option-card"
+                    onClick={() => cameraInputRef.current?.click()}
+                  >
+                    <div className="rf-photo-option-icon">
+                      <IconCamera />
+                    </div>
+                    <span className="rf-photo-option-title">Tomar Foto</span>
+                    <span className="rf-photo-option-desc">Usa la cámara del celular</span>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
 
+              {/* Inputs ocultos */}
               <input
                 ref={fileInputRef}
-                id="rf-file-upload"
+                id="rf-file-upload-gallery"
+                type="file"
+                accept="image/*"
+                className="rf-hidden"
+                onChange={handlePhotoChange}
+                multiple={true}
+              />
+              <input
+                ref={cameraInputRef}
+                id="rf-file-upload-camera"
                 type="file"
                 accept="image/*"
                 capture="environment"
@@ -446,15 +515,25 @@ const ReportForm = () => {
                 onChange={handlePhotoChange}
               />
 
-              {!formData.photo && (
-                <button
-                  type="button"
-                  className="rf-btn-upload"
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  <IconCameraSmall />
-                  Cargar Foto
-                </button>
+              {formData.photos.length > 0 && formData.photos.length < 3 && (
+                <div className="rf-upload-buttons-row">
+                  <button
+                    type="button"
+                    className="rf-btn-upload-split"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <IconImageSmall />
+                    <span>Galería</span>
+                  </button>
+                  <button
+                    type="button"
+                    className="rf-btn-upload-split"
+                    onClick={() => cameraInputRef.current?.click()}
+                  >
+                    <IconCameraSmall />
+                    <span>Cámara</span>
+                  </button>
+                </div>
               )}
             </section>
 

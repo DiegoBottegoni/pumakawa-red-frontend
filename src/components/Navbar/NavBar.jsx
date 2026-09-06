@@ -44,6 +44,14 @@ export default function NavBar({ variant = "report" }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  /* Cerrar drawer al cambiar de ruta */
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMenuOpen(false);
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
+
   /* Bloquear scroll del body cuando el drawer está abierto */
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";

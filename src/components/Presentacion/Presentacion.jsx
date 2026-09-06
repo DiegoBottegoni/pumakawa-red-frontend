@@ -40,7 +40,7 @@ const ReportItem = ({ icon: Icon, name, description, variant }) => (
 
 /* ── Componente principal ── */
 
-const Presentacion = ({ onReportar, onVerMapa }) => {
+const Presentacion = ({ onReportar }) => {
   return (
     <div className="presentacion-root">
       <div className="presentacion-container">
@@ -80,15 +80,6 @@ const Presentacion = ({ onReportar, onVerMapa }) => {
               subtitle="Registra encuentro con pumas, huellas o existencia de conflicto."
               variant="primary"
               onClick={onReportar}
-            />
-          </div>
-          <div className="pr-animate pr-animate-delay-3">
-            <ActionCard
-              icon={MapPin}
-              title="Ver mapa"
-              subtitle="Avistamientos reportados en Córdoba."
-              variant="secondary"
-              onClick={onVerMapa}
             />
           </div>
         </div>
