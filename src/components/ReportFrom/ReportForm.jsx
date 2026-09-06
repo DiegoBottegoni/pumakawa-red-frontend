@@ -1,23 +1,9 @@
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { MapContainer, TileLayer, CircleMarker, useMap, useMapEvents } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import { PROTOCOLOS, TIPOS_EVENTO } from "../../data/protocolos";
 import "./ReportForm.css";
-
-/* ─── Icons (inline SVG, zero deps) ─────────────────────────── */
-const IconArrowLeft = () => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="15 18 9 12 15 6" />
-  </svg>
-);
-
-const IconGlobe = () => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="10" />
-    <line x1="2" y1="12" x2="22" y2="12" />
-    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-  </svg>
-);
 
 const IconCamera = () => (
   <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
@@ -74,26 +60,38 @@ const IconCheck = () => (
   </svg>
 );
 
-const IconCheckCircleBig = () => (
-  <svg width="64" height="64" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-    <polyline points="22 4 12 14.01 9 11.01" />
-  </svg>
-);
+const DEFAULT_MAP_CENTER = [-31.4167, -64.1833];
 
-/* ─── Tipos de evento ────────────────────────────────────────── */
-const TIPOS_EVENTO = [
-  { value: "", label: "Selecciona una opción...", disabled: true },
-  { value: "avistamiento_vivo", label: "Avistamiento de puma vivo" },
-  { value: "avistamiento_muerto", label: "Avistamiento de puma muerto" },
-  { value: "mascotismo", label: "Mascotismo (Lo tienen de mascota)" },
-  { value: "atropellamiento", label: "Atropellamiento" },
-  { value: "herido", label: "Puma herido o atrapado" },
-  { value: "caza", label: "Caza furtiva" },
-  { value: "invasion_granja", label: "Invasión de granja" },
-  { value: "otra", label: "Otra situación" },
-];
+const formatCoords = (coords) =>
+  `${coords.lat.toFixed(6)}, ${coords.lng.toFixed(6)}`;
+
+const mergeLocationTextWithCoords = (currentText, coords) => {
+  const cleanText = currentText.replace(/\s*\|\s*Coordenadas:\s*-?\d+(?:\.\d+)?,\s*-?\d+(?:\.\d+)?\s*$/i, "").trim();
+  const coordsText = formatCoords(coords);
+  return cleanText ? `${cleanText} | Coordenadas: ${coordsText}` : coordsText;
+};
+
+const MapClickHandler = ({ onSelect }) => {
+  useMapEvents({
+    click(event) {
+      onSelect({ lat: event.latlng.lat, lng: event.latlng.lng });
+    },
+  });
+
+  return null;
+};
+
+const MapCenterUpdater = ({ coords }) => {
+  const map = useMap();
+
+  useEffect(() => {
+    if (coords) {
+      map.setView([coords.lat, coords.lng], Math.max(map.getZoom(), 13));
+    }
+  }, [coords, map]);
+
+  return null;
+};
 
 /* ─── Component ─────────────────────────────────────────────── */
 const ReportForm = () => {
@@ -110,6 +108,7 @@ const ReportForm = () => {
     descripcion: "",
     photo: null,
     photoPreviewUrl: null,
+    photoUploadedAt: null,
     locationText: "",
     locationCoords: null,
   });
@@ -121,10 +120,19 @@ const ReportForm = () => {
     success: false,
     error: "",
   });
+  const [isMapOpen, setIsMapOpen] = useState(false);
 
   /* ── Helpers ── */
   const set = (field) => (e) =>
     setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+
+  const handleMapSelect = (coords) => {
+    setFormData((prev) => ({
+      ...prev,
+      locationCoords: coords,
+      locationText: mergeLocationTextWithCoords(prev.locationText, coords),
+    }));
+  };
 
   const handlePhoneChange = (e) => {
     const cleanVal = e.target.value.replace(/\D/g, "");
@@ -140,12 +148,17 @@ const ReportForm = () => {
     const file = e.target.files?.[0];
     if (!file) return;
     const url = URL.createObjectURL(file);
-    setFormData((prev) => ({ ...prev, photo: file, photoPreviewUrl: url }));
+    setFormData((prev) => ({
+      ...prev,
+      photo: file,
+      photoPreviewUrl: url,
+      photoUploadedAt: new Date().toISOString(),
+    }));
   };
 
   const removePhoto = () => {
     if (formData.photoPreviewUrl) URL.revokeObjectURL(formData.photoPreviewUrl);
-    setFormData((prev) => ({ ...prev, photo: null, photoPreviewUrl: null }));
+    setFormData((prev) => ({ ...prev, photo: null, photoPreviewUrl: null, photoUploadedAt: null }));
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
@@ -162,11 +175,10 @@ const ReportForm = () => {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const coords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-        const text = `${coords.lat.toFixed(6)}, ${coords.lng.toFixed(6)}`;
         setFormData((prev) => ({
           ...prev,
           locationCoords: coords,
-          locationText: text,
+          locationText: mergeLocationTextWithCoords(prev.locationText, coords),
         }));
         setStatus((s) => ({ ...s, loadingLocation: false, locationError: "" }));
       },
@@ -214,6 +226,11 @@ const ReportForm = () => {
       navigate("/protocolos", { state: { tipoEvento: formData.tipoEvento } });
     }, 2000);
   };
+
+  const selectedProtocol = PROTOCOLOS[formData.tipoEvento];
+  const mapCenter = formData.locationCoords
+    ? [formData.locationCoords.lat, formData.locationCoords.lng]
+    : DEFAULT_MAP_CENTER;
 
   /* ── Main render ── */
   return (
@@ -343,6 +360,16 @@ const ReportForm = () => {
                 </select>
               </div>
 
+              {selectedProtocol && (
+                <div className="rf-protocol-preview rf-slide-in" role="status">
+                  <div className="rf-protocol-preview-header">
+                    <IconShield />
+                    <h3>{selectedProtocol.title}</h3>
+                  </div>
+                  <p>{selectedProtocol.text}</p>
+                </div>
+              )}
+
               {formData.tipoEvento === "otra" && (
                 <div className="rf-field rf-slide-in">
                   <label className="rf-label" htmlFor="rf-otro-tipo">
@@ -389,6 +416,11 @@ const ReportForm = () => {
                       className="rf-photo-img"
                     />
                     <p className="rf-photo-name">{formData.photo.name}</p>
+                    {formData.photoUploadedAt && (
+                      <p className="rf-photo-time">
+                        Cargada el {new Date(formData.photoUploadedAt).toLocaleString("es-AR")}
+                      </p>
+                    )}
                     <button
                       type="button"
                       className="rf-photo-remove"
@@ -444,12 +476,7 @@ const ReportForm = () => {
                 />
               </div>
 
-              {formData.locationCoords ? (
-                <div className="rf-location-ok">
-                  <IconCheck />
-                  Ubicación GPS guardada
-                </div>
-              ) : (
+              <div className="rf-location-actions">
                 <button
                   type="button"
                   className="rf-btn-location"
@@ -463,10 +490,54 @@ const ReportForm = () => {
                   )}
                   Usar Mi Ubicación Actual
                 </button>
+
+                <button
+                  type="button"
+                  className="rf-btn-map-toggle"
+                  onClick={() => setIsMapOpen((open) => !open)}
+                >
+                  <IconMapPin />
+                  {isMapOpen ? "Ocultar mapa" : "Seleccionar en mapa"}
+                </button>
+              </div>
+
+              {formData.locationCoords && (
+                <div className="rf-location-ok">
+                  <IconCheck />
+                  Coordenadas guardadas: {formatCoords(formData.locationCoords)}
+                </div>
               )}
 
               {status.locationError && (
                 <p className="rf-error-text">{status.locationError}</p>
+              )}
+
+              {isMapOpen && (
+                <div className="rf-map-picker rf-slide-in">
+                  <MapContainer
+                    center={mapCenter}
+                    zoom={formData.locationCoords ? 13 : 8}
+                    scrollWheelZoom={false}
+                    className="rf-leaflet-map"
+                  >
+                    <TileLayer
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <MapClickHandler onSelect={handleMapSelect} />
+                    <MapCenterUpdater coords={formData.locationCoords} />
+                    {formData.locationCoords && (
+                      <CircleMarker
+                        center={[formData.locationCoords.lat, formData.locationCoords.lng]}
+                        radius={9}
+                        pathOptions={{ color: "#E84E1B", fillColor: "#E84E1B", fillOpacity: 0.9 }}
+                      />
+                    )}
+                  </MapContainer>
+                  <p className="rf-map-helper">
+                    Tocá el mapa para marcar el punto exacto del evento.
+                  </p>
+                </div>
               )}
             </section>
 
