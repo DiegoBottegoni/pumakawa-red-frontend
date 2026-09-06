@@ -307,6 +307,12 @@
   word-break: break-all;
 }
 
+.rf-photo-time {
+  font-size: 0.76rem;
+  color: #16a34a;
+  text-align: center;
+}
+
 .rf-photo-remove {
   font-size: 0.8rem;
   color: #ef4444;
@@ -485,6 +491,40 @@
 .rf-btn-location:active { transform: scale(0.98); }
 .rf-btn-location:disabled { opacity: 0.6; cursor: not-allowed; }
 
+.rf-location-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rf-btn-map-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 18px;
+  background: #fff;
+  color: #374151;
+  border: 1.5px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.1s;
+  font-family: inherit;
+  width: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.rf-btn-map-toggle:hover {
+  background: #f9fafb;
+  border-color: #E84E1B;
+}
+
+.rf-btn-map-toggle:active {
+  transform: scale(0.98);
+}
+
 /* Location confirmed badge */
 .rf-location-ok {
   display: inline-flex;
@@ -499,6 +539,60 @@
   border-radius: 8px;
   width: 100%;
   justify-content: center;
+}
+
+.rf-protocol-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  background: #fff7ed;
+  border: 1.5px solid #fed7aa;
+  border-left: 4px solid #E84E1B;
+  border-radius: 12px;
+}
+
+.rf-protocol-preview-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #c2410c;
+}
+
+.rf-protocol-preview-header h3 {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.35;
+}
+
+.rf-protocol-preview p {
+  color: #7c2d12;
+  font-size: 0.84rem;
+  font-weight: 500;
+  line-height: 1.55;
+  white-space: pre-line;
+}
+
+.rf-map-picker {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.rf-leaflet-map {
+  width: 100%;
+  height: 220px;
+}
+
+.rf-map-helper {
+  padding: 10px 12px 12px;
+  color: #6b7280;
+  font-size: 0.8rem;
+  text-align: center;
 }
 
 /* ---------- Submit button ---------- */
@@ -685,10 +779,23 @@
     border-radius: 12px;
   }
 
+  .rf-location-actions {
+    flex-direction: row;
+  }
+
+  .rf-btn-map-toggle {
+    max-width: 320px;
+    border-radius: 12px;
+  }
+
   .rf-btn-upload {
     padding: 12px 24px;
     font-size: 0.925rem;
     border-radius: 12px;
+  }
+
+  .rf-leaflet-map {
+    height: 280px;
   }
 
   .rf-error-box {
